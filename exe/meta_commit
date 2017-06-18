@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby -wU -W0
+
+require 'meta_commit'
+
+MetaCommit::ApplicationInterface.start( ARGV )
