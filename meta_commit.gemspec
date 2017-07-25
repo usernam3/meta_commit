@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.6"
   spec.add_development_dependency "rspec-mocks", "~> 3.6"
   spec.add_development_dependency "byebug", "~> 9.0"
+  spec.add_development_dependency "coveralls", "~> 0.8"
 end

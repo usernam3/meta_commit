@@ -1,4 +1,6 @@
 # meta commit
+![Travis](https://api.travis-ci.org/usernam3/meta_commit.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/usernam3/meta_commit/badge.svg?branch=master)](https://coveralls.io/github/usernam3/meta_commit?branch=master)
 
 >   Enrich commit diffs with programing language insights
 
