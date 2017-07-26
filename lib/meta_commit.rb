@@ -5,6 +5,7 @@ require "meta_commit/git/repo"
 
 require "meta_commit/adapters/dump"
 require "meta_commit/adapters/git_notes"
+require "meta_commit/adapters/changelog"
 
 require "meta_commit/models/ast_path"
 require "meta_commit/models/line"
@@ -28,8 +29,10 @@ require "meta_commit/models/factories/ast_path_factory"
 
 require "meta_commit/services/diff_examiner"
 require "meta_commit/services/diff_index_examiner"
+require "meta_commit/services/diff_commit_examiner"
 require "meta_commit/services/change_saver"
 require "meta_commit/services/commit_message_builder"
+require "meta_commit/services/keep_a_changelog_ver_report_builder"
 
 module MetaCommit
 end

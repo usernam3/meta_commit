@@ -13,9 +13,21 @@ module MetaCommit
       say(message)
     end
 
-    desc 'changelog', 'IS NOT IMPLEMENTED'
-    def changelog(path=nil)
-      raise('IS NOT IMPLEMENTED')
+    desc 'changelog [FROM_TAG] [TO_TAG]', 'writes all changes between git tags to changelog file'
+    option :directory, :type => :string, :default => Dir.pwd
+    option :filename, :type => :string, :default => 'CHANGELOG.md', :desc => 'Filename of changelog'
+    def changelog(from_tag=nil, to_tag=nil)
+      repository_path = options[:directory]
+      filename = options[:filename]
+      repository = MetaCommit::Git::Repo.new(repository_path)
+      from_tag_commit = repository.commit_of_tag(from_tag)
+      to_tag_commit = repository.commit_of_tag(to_tag)
+      examiner = MetaCommit::Services::DiffCommitExaminer.new(repository)
+      meta = examiner.meta(from_tag_commit, to_tag_commit)
+      adapter = MetaCommit::Adapters::Changelog.new(repository.dir, filename, to_tag, to_tag_commit.time.strftime('%Y-%m-%d'))
+      change_saver = MetaCommit::Services::ChangeSaver.new(repository, adapter)
+      change_saver.store_meta(meta)
+      say("added version [#{to_tag}] to #{filename}")
     end
 
     desc 'index [DIRECTORY]', 'indexing repository located at DIRECTORY (or current directory if argument not passed)'
@@ -24,7 +36,8 @@ module MetaCommit
       repository = MetaCommit::Git::Repo.new(repository_path)
       examiner = MetaCommit::Services::DiffExaminer.new(repository)
       meta = examiner.meta
-      change_saver = MetaCommit::Services::ChangeSaver.new(repository)
+      adapter = MetaCommit::Adapters::GitNotes.new(repository.repo.path)
+      change_saver = MetaCommit::Services::ChangeSaver.new(repository, adapter)
       change_saver.store_meta(meta)
       say('repository successfully indexed')
     end

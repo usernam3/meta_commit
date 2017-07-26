@@ -30,5 +30,15 @@ module MetaCommit::Models::Diffs
     def supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)
       true
     end
+
+    def type_addition?
+      @diff_type == TYPE_ADDITION
+    end
+    def type_deletion?
+      @diff_type == TYPE_DELETION
+    end
+    def type_replace?
+      @diff_type == TYPE_REPLACE
+    end
   end
 end

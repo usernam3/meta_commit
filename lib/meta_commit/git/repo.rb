@@ -44,7 +44,7 @@ module MetaCommit::Git
     end
 
     def get_content_of(rel_repo_file_path, default = nil)
-      absolute_file_path = @repo.path.reverse.sub('/.git'.reverse, '').reverse + rel_repo_file_path
+      absolute_file_path = dir + rel_repo_file_path
       begin
         content = open(absolute_file_path).read
       rescue Errno::ENOENT
@@ -53,8 +53,22 @@ module MetaCommit::Git
       content
     end
 
+    # @return [String] path to .git folder of repository
     def path
       @repo.path
+    end
+
+    # @return [String] directory of repository
+    def dir
+      @repo.path.reverse.sub('/.git'.reverse, '').reverse
+    end
+
+    # @return [Rugged::Commit, nil]
+    def commit_of_tag(search_tag)
+      @repo.tags.each do |tag|
+        return tag.target if tag.name == search_tag
+      end
+      nil
     end
   end
 end

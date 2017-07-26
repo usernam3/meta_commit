@@ -25,18 +25,18 @@ You can install gem with the following command in a terminal:
 
 ### Message
 
-``` meta_commit message [--repo=$(pwd)] ```
+    meta_commit message [--repo=$(pwd)]
 
 Prints description of current changes in repository index
 
 ### Index
 
-``` meta_commit index [--branch=master] [--repo=$(pwd)] ```
+    meta_commit index [--repo=$(pwd)]
 
 Walks over repository commits and writes meta information to git notes
 
-### Changelog (NOT IMPLEMENTED)
+### Changelog
 
-``` meta_commit changelog [--from] [--to] [--repo=$(pwd)] ```
+    meta_commit changelog [--from-tag] [--to-tag] [--directory=$(pwd)] [--filename='CHANGELOG.md'] 
 
-Walks over commits between tags ``` from ``` and ``` to ``` and writes main changes to changelog.md
+Walks over commits between tags ``` from ``` and ``` to ``` and writes changes to changelog file
