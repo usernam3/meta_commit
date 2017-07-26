@@ -2,6 +2,7 @@
 [![Gem Version](https://badge.fury.io/rb/meta_commit.svg)](https://badge.fury.io/rb/meta_commit)
 ![Travis](https://api.travis-ci.org/usernam3/meta_commit.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/usernam3/meta_commit/badge.svg?branch=master)](https://coveralls.io/github/usernam3/meta_commit?branch=master)
+[![Inline docs](http://inch-ci.org/github/usernam3/meta_commit.svg?branch=master)](http://inch-ci.org/github/usernam3/meta_commit)
 
 >   Enrich commit diffs with programing language insights
 
