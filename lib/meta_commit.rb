@@ -1,11 +1,15 @@
 require "meta_commit/version"
 
 require "meta_commit/cli"
+
+require "meta_commit/changelog/adapters/changelog"
+require "meta_commit/changelog/commands/commit_diff_examiner"
+require "meta_commit/changelog/formatters/keep_a_changelog_ver_report_builder"
+
 require "meta_commit/git/repo"
 
 require "meta_commit/adapters/dump"
 require "meta_commit/adapters/git_notes"
-require "meta_commit/adapters/changelog"
 
 require "meta_commit/models/ast_path"
 require "meta_commit/models/line"
@@ -26,13 +30,15 @@ require "meta_commit/models/diffs/module_rename"
 
 require "meta_commit/models/factories/diff_factory"
 require "meta_commit/models/factories/ast_path_factory"
+require "meta_commit/models/factories/parser_factory"
+
+require "meta_commit/parsers/ruby"
 
 require "meta_commit/services/diff_examiner"
 require "meta_commit/services/diff_index_examiner"
-require "meta_commit/services/diff_commit_examiner"
 require "meta_commit/services/change_saver"
 require "meta_commit/services/commit_message_builder"
-require "meta_commit/services/keep_a_changelog_ver_report_builder"
+require "meta_commit/services/parse"
 
 module MetaCommit
 end

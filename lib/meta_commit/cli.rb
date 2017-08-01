@@ -22,9 +22,13 @@ module MetaCommit
       repository = MetaCommit::Git::Repo.new(repository_path)
       from_tag_commit = repository.commit_of_tag(from_tag)
       to_tag_commit = repository.commit_of_tag(to_tag)
-      examiner = MetaCommit::Services::DiffCommitExaminer.new(repository)
-      meta = examiner.meta(from_tag_commit, to_tag_commit)
-      adapter = MetaCommit::Adapters::Changelog.new(repository.dir, filename, to_tag, to_tag_commit.time.strftime('%Y-%m-%d'))
+      examiner = MetaCommit::Changelog::Commands::CommitDiffExaminer.new(
+          MetaCommit::Services::Parse.new(MetaCommit::Models::Factories::ParserFactory.new),
+          MetaCommit::Models::Factories::AstPathFactory.new,
+          MetaCommit::Models::Factories::DiffFactory.new
+      )
+      meta = examiner.meta(repository, from_tag_commit, to_tag_commit)
+      adapter = MetaCommit::Changelog::Adapters::Changelog.new(repository.dir, filename, to_tag, to_tag_commit.time.strftime('%Y-%m-%d'))
       change_saver = MetaCommit::Services::ChangeSaver.new(repository, adapter)
       change_saver.store_meta(meta)
       say("added version [#{to_tag}] to #{filename}")
