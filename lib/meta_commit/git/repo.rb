@@ -1,4 +1,5 @@
 require 'rugged'
+require 'byebug'
 
 module MetaCommit::Git
   # Rugged::Repository wrapper
@@ -54,6 +55,19 @@ module MetaCommit::Git
     # @return [Object]
     def diff_with_optimized_lines(left, right)
       diff = @repo.diff(left, right, DIFF_OPTIONS)
+      diff.deltas.zip(diff.patches).each do |delta, patch|
+        lines = organize_lines(delta, patch)
+        lines.each do |line|
+          yield(delta.old_file[:path], delta.new_file[:path], patch, line)
+        end
+      end
+    end
+
+    # Iterates over optimized lines in index diff
+    # @yield [old_file_path, new_file_path, patch, line]
+    # @return [Object]
+    def index_diff_with_optimized_lines
+      diff = index_diff(DIFF_OPTIONS)
       diff.deltas.zip(diff.patches).each do |delta, patch|
         lines = organize_lines(delta, patch)
         lines.each do |line|
@@ -153,5 +167,11 @@ module MetaCommit::Git
     end
 
     private :organize_lines
+
+
+    # @return [String] last commit oid
+    def last_commit_oid
+      @repo.last_commit.oid
+    end
   end
 end

@@ -23,5 +23,15 @@ module MetaCommit::Models::Changes
     def each(&block)
       @file_changes.each(&block)
     end
+
+    # @return [Boolean]
+    def empty?
+      @file_changes.empty?
+    end
+
+    # @return [Boolean]
+    def include?(change)
+      @file_changes.include?(change)
+    end
   end
 end

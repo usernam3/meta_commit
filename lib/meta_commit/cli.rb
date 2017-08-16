@@ -2,15 +2,18 @@ require 'thor'
 
 module MetaCommit
   class ApplicationInterface < Thor
-    desc 'message [DIRECTORY]', 'generate message with summary of changes in repo located at DIRECTORY (or current directory if argument not passed)'
-    def message(repository_path=nil)
-      repository_path ||= Dir.pwd
+    desc 'message', 'generate message with summary of changes in repo located at DIRECTORY (or current directory if argument not passed)'
+    option :directory, :type => :string, :default => Dir.pwd
+    def message
+      repository_path = options[:directory]
       repository = MetaCommit::Git::Repo.new(repository_path)
-      examiner = MetaCommit::Services::DiffIndexExaminer.new(repository)
-      meta = examiner.index_meta
-      message_builder = MetaCommit::Services::CommitMessageBuilder.new(repository)
-      message = message_builder.build(meta)
-      say(message)
+      examiner = MetaCommit::Message::Commands::DiffIndexExaminer.new(
+          MetaCommit::Services::Parse.new(MetaCommit::Models::Factories::ParserFactory.new),
+          MetaCommit::Models::Factories::AstPathFactory.new,
+          MetaCommit::Models::Factories::DiffFactory.new
+      )
+      meta = examiner.index_meta(repository)
+      say(MetaCommit::Message::Formatters::CommitMessageBuilder.new.build(meta))
     end
 
     desc 'changelog [FROM_TAG] [TO_TAG]', 'writes all changes between git tags to changelog file'
