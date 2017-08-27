@@ -8,8 +8,14 @@ module MetaCommit::Models::Changes
       @file_changes = []
     end
 
+    # @param [MetaCommit::Models::Diffs::Diff] file_change
     def push(file_change)
       @file_changes.push(file_change)
+    end
+
+    # @param [Array<MetaCommit::Models::Diffs::Diff>] file_changes
+    def push_changes(file_changes)
+      @file_changes+=file_changes
     end
 
     def commit_id

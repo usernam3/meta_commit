@@ -11,6 +11,11 @@ require "meta_commit/changelog/formatters/keep_a_changelog_ver_report_builder"
 require "meta_commit/message/commands/diff_index_examiner"
 require "meta_commit/message/formatters/commit_message_builder"
 
+# index command
+require "meta_commit/index/commands/diff_examiner"
+require "meta_commit/index/adapters/git_notes"
+
+# models
 require "meta_commit/models/ast_path"
 require "meta_commit/models/line"
 require "meta_commit/models/changes/commit"

@@ -37,13 +37,18 @@ module MetaCommit
       say("added version [#{to_tag}] to #{filename}")
     end
 
-    desc 'index [DIRECTORY]', 'indexing repository located at DIRECTORY (or current directory if argument not passed)'
-    def index(repository_path=nil)
-      repository_path ||= Dir.pwd
+    desc 'index', 'indexing repository'
+    option :directory, :type => :string, :default => Dir.pwd
+    def index
+      repository_path = options[:directory]
       repository = MetaCommit::Git::Repo.new(repository_path)
-      examiner = MetaCommit::Services::DiffExaminer.new(repository)
-      meta = examiner.meta
-      adapter = MetaCommit::Adapters::GitNotes.new(repository.repo.path)
+      examiner = MetaCommit::Index::Commands::DiffExaminer.new(
+          MetaCommit::Services::Parse.new(MetaCommit::Models::Factories::ParserFactory.new),
+          MetaCommit::Models::Factories::AstPathFactory.new,
+          MetaCommit::Models::Factories::DiffFactory.new
+      )
+      meta = examiner.meta(repository)
+      adapter = MetaCommit::Index::Adapters::GitNotes.new(repository.path)
       change_saver = MetaCommit::Services::ChangeSaver.new(repository, adapter)
       change_saver.store_meta(meta)
       say('repository successfully indexed')

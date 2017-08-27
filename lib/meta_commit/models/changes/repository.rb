@@ -14,5 +14,10 @@ module MetaCommit::Models::Changes
     def each(&block)
       @commit_changes.each(&block)
     end
+
+    # @return [Boolean]
+    def empty?
+      @commit_changes.empty?
+    end
   end
 end
