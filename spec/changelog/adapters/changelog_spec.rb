@@ -30,7 +30,7 @@ describe MetaCommit::Changelog::Adapters::Changelog do
     it 'writes to file builder message with previous content' do
       expect(File).to receive(:read).and_return('previous content')
       file_to_write = double(:file)
-      contains_both_strings = Regexp.union([/previous content/, /builder message]/])
+      contains_both_strings = Regexp.union([/previous content/, /builder message/])
       expect(file_to_write).to receive(:write).with(contains_both_strings)
       expect(File).to receive(:open).and_return(file_to_write)
 

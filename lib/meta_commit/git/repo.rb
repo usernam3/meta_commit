@@ -1,5 +1,4 @@
 require 'rugged'
-require 'byebug'
 
 module MetaCommit::Git
   # Rugged::Repository wrapper
@@ -12,7 +11,11 @@ module MetaCommit::Git
 
     # @param [String] repo_path
     def initialize(repo_path)
-      @repo = Rugged::Repository.new(repo_path)
+      begin
+        @repo = Rugged::Repository.new(repo_path)
+      rescue Rugged::OSError
+        raise MetaCommit::Errors::MissingRepoError
+      end
     end
 
     # @return [Rugged::Walker] commit iterator

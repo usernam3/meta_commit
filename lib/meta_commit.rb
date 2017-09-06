@@ -43,6 +43,9 @@ require "meta_commit/models/factories/parser_factory"
 require "meta_commit/services/change_saver"
 require "meta_commit/services/parse"
 
+# errors
+require "meta_commit/errors/missing_repo_error"
+
 require "meta_commit/git/repo"
 require "meta_commit/parsers/ruby"
 

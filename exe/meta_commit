@@ -2,4 +2,8 @@
 
 require 'meta_commit'
 
-MetaCommit::ApplicationInterface.start( ARGV )
+begin
+    MetaCommit::ApplicationInterface.start( ARGV )
+rescue MetaCommit::Errors::MissingRepoError => e
+    Thor.new.say(e.message)
+end

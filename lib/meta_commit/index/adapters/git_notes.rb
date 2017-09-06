@@ -1,4 +1,3 @@
-require 'byebug'
 module MetaCommit::Index
   module Adapters
     # Adapter class to write repository changes to git notes
