@@ -1,9 +1,12 @@
 module MetaCommit::Models::Factories
+  # Diff factory
+  # @attr [Array] available_diff_classes diff classes that factory can build
   class DiffFactory
     attr_accessor :available_diff_classes
 
     def initialize
       @available_diff_classes = [
+          MetaCommit::Models::Diffs::InitializeChanged,
           MetaCommit::Models::Diffs::ClassCreation,
           MetaCommit::Models::Diffs::ClassDeletion,
           MetaCommit::Models::Diffs::ClassRename,
@@ -17,6 +20,10 @@ module MetaCommit::Models::Factories
       ]
     end
 
+    # Factory method
+    # @param [Symbol] type
+    # @param [Hash] options
+    # @return [Diff, nil] created diff or nil if matched diff not found
     def create_diff_of_type(type, options)
       @available_diff_classes.each do |diff_class|
         diff = diff_class.new
@@ -34,6 +41,7 @@ module MetaCommit::Models::Factories
           return diff
         end
       end
+      nil
     end
   end
 end

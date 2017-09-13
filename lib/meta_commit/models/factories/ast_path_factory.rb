@@ -1,5 +1,9 @@
 module MetaCommit::Models::Factories
   class AstPathFactory
+
+    # @param [Parser::AST::Node] source_ast
+    # @param [Integer] line_number
+    # @return [MetaCommit::Models::AstPath]
     def create_ast_path(source_ast, line_number)
       visited_nodes = []
       ast_path = MetaCommit::Models::AstPath.new

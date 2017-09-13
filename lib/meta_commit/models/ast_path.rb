@@ -2,7 +2,6 @@ module MetaCommit::Models
   class AstPath
     attr_accessor :ast, :path
 
-    # region helpers
     def is_module_definition?(node)
       node.type == :module
     end
@@ -31,9 +30,6 @@ module MetaCommit::Models
       @ast.nil?
     end
 
-    # endregion
-
-    # region external helpers
     def is_module?
       @ast.type == :module
     end
@@ -106,6 +102,16 @@ module MetaCommit::Models
       end
       false
     end
-    # endregion
+
+    # @param [Integer] depth
+    # @return [String]
+    def path_to_component(depth=nil)
+      depth = -1 if depth.nil?
+      result = []
+      result.concat([name_of_context_module, is_in_context_of_class? && depth < 1 ? '::' : '']) if is_in_context_of_module? && depth < 2
+      result.concat([name_of_context_class]) if is_in_context_of_class? && depth < 1
+      result.concat(['#', name_of_context_method]) if is_in_context_of_method? && depth < 0
+      result .join('')
+    end
   end
 end

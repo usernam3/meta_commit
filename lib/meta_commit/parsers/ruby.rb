@@ -24,10 +24,5 @@ module MetaCommit::Parsers
     def parse(source_code)
       parser.parse(source_code)
     end
-
-    # @param [Integer] line
-    # def get_path_to_ast_line(ast, line)
-    #
-    # end
   end
 end

@@ -41,7 +41,7 @@ module MetaCommit::Changelog
               :old_file_path => old_file_path,
               :new_file_path => new_file_path,
           })
-          diffs.push(created_diff)
+          diffs.push(created_diff) unless created_diff.nil?
         end
         diffs
       end
