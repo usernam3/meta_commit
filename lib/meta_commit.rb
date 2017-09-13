@@ -33,6 +33,7 @@ require "meta_commit/models/diffs/changes_in_method"
 require "meta_commit/models/diffs/module_creation"
 require "meta_commit/models/diffs/module_deletion"
 require "meta_commit/models/diffs/module_rename"
+require "meta_commit/models/diffs/initialize_changed"
 
 # factories
 require "meta_commit/models/factories/diff_factory"
@@ -44,7 +45,7 @@ require "meta_commit/services/change_saver"
 require "meta_commit/services/parse"
 
 # errors
-require "meta_commit/errors/missing_repo_error"
+require "meta_commit/errors"
 
 require "meta_commit/git/repo"
 require "meta_commit/parsers/ruby"
