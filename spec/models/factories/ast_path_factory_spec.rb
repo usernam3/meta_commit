@@ -7,7 +7,7 @@ describe MetaCommit::Models::Factories::AstPathFactory do
       source_ast = Parser::CurrentRuby.parse(ast_content)
       ast_path = subject.create_ast_path(source_ast, 2)
 
-      expect(ast_path).to be_a(MetaCommit::Models::AstPath)
+      expect(ast_path).to be_a(MetaCommit::Models::ContextualAstNode)
       expect(ast_path.ast).to be nil
       expect(ast_path.path).to be_empty
     end
@@ -19,7 +19,7 @@ end
       source_ast = Parser::CurrentRuby.parse(ast_content)
       ast_path = subject.create_ast_path(source_ast, 3)
 
-      expect(ast_path).to be_a(MetaCommit::Models::AstPath)
+      expect(ast_path).to be_a(MetaCommit::Models::ContextualAstNode)
       expect(ast_path.ast).to be nil
       expect(ast_path.path).to be_empty
     end
@@ -30,7 +30,7 @@ module TestModule;end
       source_ast = Parser::CurrentRuby.parse(ast_content)
       ast_path = subject.create_ast_path(source_ast, 1)
 
-      expect(ast_path).to be_a(MetaCommit::Models::AstPath)
+      expect(ast_path).to be_a(MetaCommit::Models::ContextualAstNode)
       expect(ast_path.ast).to eq(source_ast.children.first)
     end
     it 'builds ast path from complex source ast' do
@@ -45,7 +45,7 @@ end
       source_ast = Parser::CurrentRuby.parse(ast_content)
       ast_path = subject.create_ast_path(source_ast, 3)
 
-      expect(ast_path).to be_a(MetaCommit::Models::AstPath)
+      expect(ast_path).to be_a(MetaCommit::Models::ContextualAstNode)
       expect(ast_path.ast).to eq(source_ast.children.last.children.last.children.first)
     end
     it 'adds every level of passed ast to path' do
@@ -60,7 +60,7 @@ end
       source_ast = Parser::CurrentRuby.parse(ast_content)
       ast_path = subject.create_ast_path(source_ast, 3)
 
-      expect(ast_path).to be_a(MetaCommit::Models::AstPath)
+      expect(ast_path).to be_a(MetaCommit::Models::ContextualAstNode)
       expect(ast_path.path).to eq([
                                      source_ast,
                                      source_ast.children.last,

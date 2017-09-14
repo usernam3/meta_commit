@@ -1,5 +1,5 @@
 module MetaCommit::Models
-  class AstPath
+  class ContextualAstNode
     attr_accessor :ast, :path
 
     def is_module_definition?(node)

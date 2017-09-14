@@ -3,10 +3,10 @@ module MetaCommit::Models::Factories
 
     # @param [Parser::AST::Node] source_ast
     # @param [Integer] line_number
-    # @return [MetaCommit::Models::AstPath]
+    # @return [MetaCommit::Models::ContextualAstNode]
     def create_ast_path(source_ast, line_number)
       visited_nodes = []
-      ast_path = MetaCommit::Models::AstPath.new
+      ast_path = MetaCommit::Models::ContextualAstNode.new
       ast_path.ast = collect_path_to_ast_at_line(source_ast, line_number, visited_nodes)
       ast_path.path = visited_nodes
       ast_path

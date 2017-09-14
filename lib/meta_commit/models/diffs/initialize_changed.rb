@@ -1,4 +1,3 @@
-require 'byebug'
 module MetaCommit::Models::Diffs
   class InitializeChanged < Diff
     def supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)
