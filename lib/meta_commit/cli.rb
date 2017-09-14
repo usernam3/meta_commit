@@ -9,7 +9,7 @@ module MetaCommit
       repository = MetaCommit::Git::Repo.new(repository_path)
       examiner = MetaCommit::Message::Commands::DiffIndexExaminer.new(
           MetaCommit::Services::Parse.new(MetaCommit::Models::Factories::ParserFactory.new),
-          MetaCommit::Models::Factories::AstPathFactory.new,
+          MetaCommit::Models::Factories::ContextualAstNodeFactory.new,
           MetaCommit::Models::Factories::DiffFactory.new
       )
       meta = examiner.index_meta(repository)
@@ -27,7 +27,7 @@ module MetaCommit
       to_tag_commit = repository.commit_of_tag(to_tag)
       examiner = MetaCommit::Changelog::Commands::CommitDiffExaminer.new(
           MetaCommit::Services::Parse.new(MetaCommit::Models::Factories::ParserFactory.new),
-          MetaCommit::Models::Factories::AstPathFactory.new,
+          MetaCommit::Models::Factories::ContextualAstNodeFactory.new,
           MetaCommit::Models::Factories::DiffFactory.new
       )
       meta = examiner.meta(repository, from_tag_commit, to_tag_commit)
@@ -44,7 +44,7 @@ module MetaCommit
       repository = MetaCommit::Git::Repo.new(repository_path)
       examiner = MetaCommit::Index::Commands::DiffExaminer.new(
           MetaCommit::Services::Parse.new(MetaCommit::Models::Factories::ParserFactory.new),
-          MetaCommit::Models::Factories::AstPathFactory.new,
+          MetaCommit::Models::Factories::ContextualAstNodeFactory.new,
           MetaCommit::Models::Factories::DiffFactory.new
       )
       meta = examiner.meta(repository)

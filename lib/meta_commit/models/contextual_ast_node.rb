@@ -1,6 +1,9 @@
 module MetaCommit::Models
+  # Stores specific node from ast and all nodes bypassed on the way to target node
+  # @attr [Parser::AST::Node] target_node Target node from AST
+  # @attr [Array<Parser::AST::Node>] context_nodes Nodes bypassed on the way to target node
   class ContextualAstNode
-    attr_accessor :ast, :path
+    attr_accessor :target_node, :context_nodes
 
     def is_module_definition?(node)
       node.type == :module
@@ -27,77 +30,77 @@ module MetaCommit::Models
     end
 
     def empty_ast?
-      @ast.nil?
+      @target_node.nil?
     end
 
     def is_module?
-      @ast.type == :module
+      @target_node.type == :module
     end
 
     def is_class?
-      @ast.type == :class
+      @target_node.type == :class
     end
 
     def is_method?
-      @ast.type == :def
+      @target_node.type == :def
     end
 
     # on created class only first line goes to diff
     def is_name_of_class?
-      (@ast.type == :const) and (@path.length > 1) and (@path[@path.length - 1 - 1].type == :class)
+      (@target_node.type == :const) and (@context_nodes.length > 1) and (@context_nodes[@context_nodes.length - 1 - 1].type == :class)
     end
 
     # on created module only first line goes to diff
     def is_name_of_module?
-      (@ast.type == :const) and (@path.length > 1) and (@path[@path.length - 1 - 1].type == :module)
+      (@target_node.type == :const) and (@context_nodes.length > 1) and (@context_nodes[@context_nodes.length - 1 - 1].type == :module)
     end
 
     def module_name
-      @ast.children.first.children.last.to_s
+      @target_node.children.first.children.last.to_s
     end
 
     def class_name
-      @ast.children.first.children.last.to_s
+      @target_node.children.first.children.last.to_s
     end
 
     def method_name
-      @ast.children.first.to_s
+      @target_node.children.first.to_s
     end
 
     def name_of_context_module
-      @path.reverse.each do |parent|
+      @context_nodes.reverse.each do |parent|
         return extract_module_name(parent) if is_module_definition?(parent)
       end
     end
 
     def name_of_context_class
-      @path.reverse.each do |parent|
+      @context_nodes.reverse.each do |parent|
         return extract_class_name(parent) if is_class_definition?(parent)
       end
     end
 
     def name_of_context_method
-      @path.reverse.each do |parent|
+      @context_nodes.reverse.each do |parent|
         return extract_method_name(parent) if is_method_definition?(parent)
       end
     end
 
     def is_in_context_of_module?
-      @path.each do |parent|
+      @context_nodes.each do |parent|
         return true if is_module_definition?(parent)
       end
       false
     end
 
     def is_in_context_of_class?
-      @path.each do |parent|
+      @context_nodes.each do |parent|
         return true if is_class_definition?(parent)
       end
       false
     end
 
     def is_in_context_of_method?
-      @path.each do |parent|
+      @context_nodes.each do |parent|
         return true if is_method_definition?(parent)
       end
       false

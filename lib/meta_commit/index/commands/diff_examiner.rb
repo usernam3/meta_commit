@@ -2,7 +2,7 @@ module MetaCommit::Index
   module Commands
     class DiffExaminer
       # @param [MetaCommit::Services::Parse] parse_command
-      # @param [MetaCommit::Models::Factories::AstPathFactory] ast_path_factory
+      # @param [MetaCommit::Models::Factories::ContextualAstNodeFactory] ast_path_factory
       # @param [MetaCommit::Models::Factories::DiffFactory] diff_factory
       def initialize(parse_command, ast_path_factory, diff_factory)
         @parse_command = parse_command

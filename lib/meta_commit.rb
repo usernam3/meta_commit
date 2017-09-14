@@ -37,7 +37,7 @@ require "meta_commit/models/diffs/initialize_changed"
 
 # factories
 require "meta_commit/models/factories/diff_factory"
-require "meta_commit/models/factories/ast_path_factory"
+require "meta_commit/models/factories/contextual_ast_node_factory"
 require "meta_commit/models/factories/parser_factory"
 
 # services

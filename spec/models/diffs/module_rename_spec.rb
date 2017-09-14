@@ -16,7 +16,7 @@ module TestModule
 end
       eos
       old_source_ast = Parser::CurrentRuby.parse(old_ast_content)
-      old_ast_path = MetaCommit::Models::Factories::AstPathFactory.new.create_ast_path(old_source_ast, 1)
+      old_ast_path = MetaCommit::Models::Factories::ContextualAstNodeFactory.new.create_ast_path(old_source_ast, 1)
 
       new_ast_content = <<-eos
 module TestModule
@@ -27,7 +27,7 @@ module TestModule
 end
       eos
       new_source_ast = Parser::CurrentRuby.parse(new_ast_content)
-      new_ast_path = MetaCommit::Models::Factories::AstPathFactory.new.create_ast_path(new_source_ast, 1)
+      new_ast_path = MetaCommit::Models::Factories::ContextualAstNodeFactory.new.create_ast_path(new_source_ast, 1)
       expect(subject.supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)).to be true
     end
   end
@@ -43,7 +43,7 @@ module TestModule
 end
       eos
       old_source_ast = Parser::CurrentRuby.parse(old_ast_content)
-      old_ast_path = MetaCommit::Models::Factories::AstPathFactory.new.create_ast_path(old_source_ast, 1)
+      old_ast_path = MetaCommit::Models::Factories::ContextualAstNodeFactory.new.create_ast_path(old_source_ast, 1)
 
       new_ast_content = <<-eos
 module TestModuleNEW
@@ -54,7 +54,7 @@ module TestModuleNEW
 end
       eos
       new_source_ast = Parser::CurrentRuby.parse(new_ast_content)
-      new_ast_path = MetaCommit::Models::Factories::AstPathFactory.new.create_ast_path(new_source_ast, 1)
+      new_ast_path = MetaCommit::Models::Factories::ContextualAstNodeFactory.new.create_ast_path(new_source_ast, 1)
 
       subject.diff_type=type
       subject.commit_old=nil
