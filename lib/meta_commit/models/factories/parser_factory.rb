@@ -1,4 +1,6 @@
 module MetaCommit::Models::Factories
+  # Parser factory
+  # @attr [Array] available_parser_classes parser classes that factory can build
   class ParserFactory
     attr_accessor :available_parser_classes
 

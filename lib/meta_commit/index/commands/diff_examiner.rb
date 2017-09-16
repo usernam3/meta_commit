@@ -10,6 +10,7 @@ module MetaCommit::Index
         @diff_factory = diff_factory
       end
 
+      # Creates diff objects with meta information of changes in repository commits
       # @param [MetaCommit::Git::Repo] repo
       def meta(repo)
         repo_changes = MetaCommit::Models::Changes::Repository.new(repo.path)

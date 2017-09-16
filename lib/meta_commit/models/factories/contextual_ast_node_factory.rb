@@ -1,4 +1,5 @@
 module MetaCommit::Models::Factories
+  # Factory that builds ContextualAstNode from ast nodes
   class ContextualAstNodeFactory
 
     # @param [Parser::AST::Node] source_ast
