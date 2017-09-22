@@ -1,6 +1,6 @@
 require 'rspec'
 
-describe MetaCommit::Models::Factories::ContextualAstNodeFactory do
+describe MetaCommit::Factories::ContextualAstNodeFactory do
   describe '#create_ast_path' do
     it 'returns empty ast path when empty ast passed' do
       ast_content = ''

@@ -1,7 +1,7 @@
 module MetaCommit::Services
   # Class#execute receives filename and text, parses text if matched parser found and returns parsed content
   class Parse
-    # @param [MetaCommit::Models::Factories::ParserFactory] factory
+    # @param [MetaCommit::Factories::ParserFactory] factory
     def initialize(factory)
       @factory=factory
     end

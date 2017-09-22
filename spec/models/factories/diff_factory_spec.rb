@@ -1,6 +1,6 @@
 require 'rspec'
 
-describe MetaCommit::Models::Factories::DiffFactory do
+describe MetaCommit::Factories::DiffFactory do
   describe '#create_diff_of_type' do
     let(:create_options) { {
         :line => Rugged::Diff::Line.new,
@@ -17,14 +17,14 @@ describe MetaCommit::Models::Factories::DiffFactory do
       diff_class_2 = double('diff', :supports_change => false)
       expect(diff_class_2).to receive(:new).and_return(diff_class_2)
 
-      subject.available_diff_classes = [diff_class_1, diff_class_2]
+      subject = MetaCommit::Factories::DiffFactory.new([diff_class_1, diff_class_2])
       subject.create_diff_of_type(:addition, create_options)
     end
     it 'returns nil if supported diff not found' do
       diff_class_1 = double('diff', :supports_change => false)
       expect(diff_class_1).to receive(:new).and_return(diff_class_1)
 
-      subject.available_diff_classes = [diff_class_1,]
+      subject = MetaCommit::Factories::DiffFactory.new([diff_class_1,])
       expect(subject.create_diff_of_type(:addition, create_options)).to be nil
     end
     it 'fills the first supported diff' do
@@ -33,7 +33,7 @@ describe MetaCommit::Models::Factories::DiffFactory do
 
       diff_class_2 = MetaCommit::Models::Diffs::Diff
 
-      subject.available_diff_classes = [diff_class_1, diff_class_2]
+      subject = MetaCommit::Factories::DiffFactory.new([diff_class_1, diff_class_2])
       created_diff = subject.create_diff_of_type(:addition, create_options)
 
       expect(created_diff).to be_a(MetaCommit::Models::Diffs::Diff)

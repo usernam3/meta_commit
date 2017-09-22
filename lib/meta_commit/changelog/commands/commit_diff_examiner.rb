@@ -2,8 +2,8 @@ module MetaCommit::Changelog
   module Commands
     class CommitDiffExaminer
       # @param [MetaCommit::Services::Parse] parse_command
-      # @param [MetaCommit::Models::Factories::ContextualAstNodeFactory] ast_path_factory
-      # @param [MetaCommit::Models::Factories::DiffFactory] diff_factory
+      # @param [MetaCommit::Factories::ContextualAstNodeFactory] ast_path_factory
+      # @param [MetaCommit::Factories::DiffFactory] diff_factory
       def initialize(parse_command, ast_path_factory, diff_factory)
         @parse_command = parse_command
         @ast_path_factory = ast_path_factory
