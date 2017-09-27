@@ -2,7 +2,7 @@ module MetaCommit::Factories
   # Factory that builds ContextualAstNode from ast nodes
   class ContextualAstNodeFactory
 
-    # @param [Parser::AST::Node] source_ast
+    # @param [MetaCommit::Contracts::Ast] source_ast
     # @param [Integer] line_number
     # @return [MetaCommit::Models::ContextualAstNode]
     def create_ast_path(source_ast, line_number)
@@ -13,20 +13,12 @@ module MetaCommit::Factories
       ast_path
     end
 
-    protected
-    def get_ast_at_line(ast, lineno)
-      return nil unless ast_covers_line(ast, lineno)
-      closest_ast = ast
-      ast.children.each do |child|
-        found_ast = get_ast_at_line(child, lineno)
-        closest_ast = found_ast unless found_ast.nil?
-      end
-      closest_ast
-    end
-
-    protected
+    # @param [MetaCommit::Contracts::Ast] ast
+    # @param [Integer] lineno
+    # @param [Array<MetaCommit::Contracts::Ast>] accumulator
+    # @return [MetaCommit::Contracts::Ast]
     def collect_path_to_ast_at_line(ast, lineno, accumulator)
-      return nil unless ast_covers_line(ast, lineno)
+      return nil if ast.nil? or not covers_line(ast, lineno)
       closest_ast = ast
       accumulator.push(closest_ast)
       ast.children.each do |child|
@@ -36,10 +28,33 @@ module MetaCommit::Factories
       closest_ast
     end
 
-    protected
-    def ast_covers_line(ast, line)
-      return false unless (ast.respond_to?(:loc) && ast.loc.respond_to?(:expression) && !ast.loc.expression.nil?)
-      (ast.loc.first_line <= line) && (ast.loc.last_line >= line)
+    protected :collect_path_to_ast_at_line
+
+
+    # @param [MetaCommit::Contracts::Ast] ast
+    # @param [Integer] lineno
+    # @return [MetaCommit::Contracts::Ast]
+    def get_ast_at_line(ast, lineno)
+      return nil unless covers_line(ast, lineno)
+      closest_ast = ast
+      ast.children.each do |child|
+        found_ast = get_ast_at_line(child, lineno)
+        closest_ast = found_ast unless found_ast.nil?
+      end
+      closest_ast
     end
+
+    protected :get_ast_at_line
+
+
+    # @param [MetaCommit::Contracts::Ast] ast
+    # @param [Integer] line
+    # @return [Boolean]
+    def covers_line(ast, line)
+      return false if ((ast.first_line.nil?) && (ast.last_line.nil?))
+      ((ast.first_line <= line) && (ast.last_line >= line))
+    end
+
+    protected :covers_line
   end
 end

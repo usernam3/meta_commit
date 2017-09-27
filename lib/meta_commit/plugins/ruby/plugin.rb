@@ -14,4 +14,7 @@ require "meta_commit/plugins/ruby/diffs/module_creation"
 require "meta_commit/plugins/ruby/diffs/module_deletion"
 require "meta_commit/plugins/ruby/diffs/module_rename"
 require "meta_commit/plugins/ruby/diffs/initialize_changed"
+
+require "meta_commit/plugins/ruby/models/ast"
+
 require "meta_commit/plugins/ruby/locator"

@@ -8,7 +8,7 @@ describe MetaCommit::Configuration, test_construct: true do
     end
   end
   describe '#fill_from_hash' do
-    it 'converts keys to symbols and sets values from hash' do
+    it 'sets values from hash' do
       subject.fill_from_hash({'foo' => 'bar', baz: :bar, :bar => nil})
 
       expect(subject.get(:foo)).to eq('bar')

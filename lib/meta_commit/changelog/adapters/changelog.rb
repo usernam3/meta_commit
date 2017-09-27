@@ -82,7 +82,7 @@ module MetaCommit::Changelog
       private :write_to_changelog
 
       # @param [Array<String>] changelog_parts content sections from changelog
-      # @return [Bool]
+      # @return [Boolean]
       def starts_with_description(changelog_parts)
         return false if changelog_parts.empty?
         changelog_parts[0].match(VERSION_HEADER_REGEX).nil?

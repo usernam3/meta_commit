@@ -37,12 +37,6 @@ module MetaCommit::Models::Diffs
     end
 
     # @param [Symbol] type
-    # @return [Boolean]
-    def supports_change_of_type(type)
-      true
-    end
-
-    # @param [Symbol] type
     # @param [String] old_file_name
     # @param [String] new_file_name
     # @param [String] old_ast_path

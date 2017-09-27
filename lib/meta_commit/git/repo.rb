@@ -15,6 +15,8 @@ module MetaCommit::Git
         @repo = Rugged::Repository.new(repo_path)
       rescue Rugged::OSError
         raise MetaCommit::Errors::MissingRepoError
+      rescue Rugged::RepositoryError
+        raise MetaCommit::Errors::MissingRepoError
       end
     end
 
@@ -126,6 +128,11 @@ module MetaCommit::Git
       end
     end
 
+    # @return [String] last commit oid
+    def last_commit_oid
+      @repo.last_commit.oid
+    end
+
     # @param [Object] delta
     # @param [Object] patch
     # @return [Array<MetaCommit::Models::Line>]
@@ -171,10 +178,5 @@ module MetaCommit::Git
 
     private :organize_lines
 
-
-    # @return [String] last commit oid
-    def last_commit_oid
-      @repo.last_commit.oid
-    end
   end
 end

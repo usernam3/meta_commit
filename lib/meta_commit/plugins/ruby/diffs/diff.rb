@@ -1,3 +1,5 @@
+require "meta_commit/plugins/contracts/diff"
+
 module MetaCommit::Plugin::Ruby::Diffs
   # Base class for diffs
   # @attr [Symbol] diff_type
@@ -9,7 +11,7 @@ module MetaCommit::Plugin::Ruby::Diffs
   # @attr [String] new_lineno
   # @attr [MetaCommit::Models::ContextualAstNode] old_ast_path
   # @attr [MetaCommit::Models::ContextualAstNode] new_ast_path
-  class Diff
+  class Diff < MetaCommit::Contracts::Diff
 
     TYPE_ADDITION = :addition
     TYPE_DELETION = :deletion
@@ -37,12 +39,6 @@ module MetaCommit::Plugin::Ruby::Diffs
     end
 
     # @param [Symbol] type
-    # @return [Boolean]
-    def supports_change_of_type(type)
-      true
-    end
-
-    # @param [Symbol] type
     # @param [String] old_file_name
     # @param [String] new_file_name
     # @param [String] old_ast_path
@@ -56,13 +52,88 @@ module MetaCommit::Plugin::Ruby::Diffs
     def type_addition?
       @diff_type == TYPE_ADDITION
     end
+
     # @return [Boolean]
     def type_deletion?
       @diff_type == TYPE_DELETION
     end
+
     # @return [Boolean]
     def type_replace?
       @diff_type == TYPE_REPLACE
+    end
+
+
+    # @param [Object] ast
+    # @param [Integer] depth
+    # @return [String]
+    def path_to_component(ast, depth=nil)
+      depth = -1 if depth.nil?
+      result = []
+      result.concat([name_of_context_module(ast), is_in_context_of_class?(ast) && depth < 1 ? '::' : '']) if is_in_context_of_module?(ast) && depth < 2
+      result.concat([name_of_context_class(ast)]) if is_in_context_of_class?(ast) && depth < 1
+      result.concat(['#', name_of_context_method(ast)]) if is_in_context_of_method?(ast) && depth < 0
+      result.join('')
+    end
+
+    # on created class only first line goes to diff
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    def is_name_of_class?(ast)
+      (ast.target_node.ast.type == :const) and (ast.context_nodes.length > 1) and (ast.context_nodes[ast.context_nodes.length - 1 - 1].ast.type == :class)
+    end
+
+    # on created module only first line goes to diff
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    def is_name_of_module?(ast)
+      (ast.target_node.ast.type == :const) and (ast.context_nodes.length > 1) and (ast.context_nodes[ast.context_nodes.length - 1 - 1].ast.type == :module)
+    end
+
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    def name_of_context_module(ast)
+      ast.context_nodes.reverse.each do |parent|
+        return parent.module_name if parent.is_module?
+      end
+    end
+
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    def name_of_context_class(ast)
+      ast.context_nodes.reverse.each do |parent|
+        return parent.class_name if parent.is_class?
+      end
+    end
+
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    def name_of_context_method(ast)
+      ast.context_nodes.reverse.each do |parent|
+        return parent.method_name if parent.is_method?
+      end
+    end
+
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    # @return [Boolean]
+    def is_in_context_of_module?(ast)
+      ast.context_nodes.each do |parent|
+        return true if parent.is_module?
+      end
+      false
+    end
+
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    # @return [Boolean]
+    def is_in_context_of_class?(ast)
+      ast.context_nodes.each do |parent|
+        return true if parent.is_class?
+      end
+      false
+    end
+
+    # @param [MetaCommit::Model::ContextualAstNode] ast
+    # @return [Boolean]
+    def is_in_context_of_method?(ast)
+      ast.context_nodes.each do |parent|
+        return true if parent.is_method?
+      end
+      false
     end
   end
 end

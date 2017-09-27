@@ -1,6 +1,6 @@
 module MetaCommit::Factories
   # Diff factory
-  # @attr [Array] available_diff_classes diff classes that factory can build
+  # @attr [Array<Class>] available_diff_classes diff classes that factory can build
   class DiffFactory
     attr_accessor :available_diff_classes
 

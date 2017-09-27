@@ -1,5 +1,5 @@
 module MetaCommit::Services
-  # Class#execute receives filename and text, parses text if matched parser found and returns parsed content
+  # Parse service responsibility is to parse text if matched parser found and return parsed content
   class Parse
     # @param [MetaCommit::Factories::ParserFactory] factory
     def initialize(factory)
@@ -9,7 +9,7 @@ module MetaCommit::Services
     # Parses content and if matched parser found returns parsed content
     # @param [String] filename
     # @param [String] content
-    # @return [Object, nil]
+    # @return [MetaCommit::Plugin::Ruby::Models::Ast, nil]
     def execute(filename, content)
       parser = @factory.create_parser_for(filename, content)
       return nil if parser.nil?
