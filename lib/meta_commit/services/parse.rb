@@ -9,11 +9,13 @@ module MetaCommit::Services
     # Parses content and if matched parser found returns parsed content
     # @param [String] filename
     # @param [String] content
-    # @return [MetaCommit::Plugin::Ruby::Models::Ast, nil]
+    # @return [MetaCommit::Contracts::Ast, nil]
     def execute(filename, content)
       parser = @factory.create_parser_for(filename, content)
       return nil if parser.nil?
-      parser.parse(content)
+      ast = parser.parse(content)
+      ast.parser_class = parser.class
+      ast
     end
   end
 end

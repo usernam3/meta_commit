@@ -1,5 +1,4 @@
 require "meta_commit/plugins/contracts/ast"
-require 'byebug'
 
 module MetaCommit::Plugin::Ruby::Models
   # Adapter which implements MetaCommit::Contracts::Ast contract and wraps Parser::AST::Node

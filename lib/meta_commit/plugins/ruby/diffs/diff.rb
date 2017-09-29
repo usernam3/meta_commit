@@ -16,12 +16,29 @@ module MetaCommit::Plugin::Ruby::Diffs
     TYPE_ADDITION = :addition
     TYPE_DELETION = :deletion
     TYPE_REPLACE = :replace
+    SUPPORTED_PARSERS = [MetaCommit::Plugin::Ruby::Parsers::Ruby]
 
     attr_accessor :diff_type
     attr_accessor :commit_old, :commit_new
     attr_accessor :old_file, :new_file
     attr_accessor :old_lineno, :new_lineno
     attr_accessor :old_ast_path, :new_ast_path
+
+    # @param [Class] parser
+    # @return [Boolean]
+    def supports_parser?(parser)
+      SUPPORTED_PARSERS.include?(parser)
+    end
+
+    # @param [Symbol] type
+    # @param [String] old_file_name
+    # @param [String] new_file_name
+    # @param [String] old_ast_path
+    # @param [String] new_ast_path
+    # @return [Boolean]
+    def supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)
+      true
+    end
 
     # @return [String]
     def inspect
@@ -36,16 +53,6 @@ module MetaCommit::Plugin::Ruby::Diffs
     # @return [String]
     def string_representation
       "#{diff_type} was performed"
-    end
-
-    # @param [Symbol] type
-    # @param [String] old_file_name
-    # @param [String] new_file_name
-    # @param [String] old_ast_path
-    # @param [String] new_ast_path
-    # @return [Boolean]
-    def supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)
-      true
     end
 
     # @return [Boolean]

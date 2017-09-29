@@ -4,7 +4,15 @@ module MetaCommit::Contracts
 
     TYPE_ADDITION = :addition
     TYPE_DELETION = :deletion
-    TYPE_REPLACE = :replace
+    TYPE_REPLACE  = :replace
+
+    SUPPORTS_ALL_PARSERS_WILDCARD = :*
+
+    # @param [Class] parser
+    # @return [Boolean]
+    def supports_parser?(parser)
+
+    end
 
     # @param [Symbol] type
     # @param [String] old_file_name

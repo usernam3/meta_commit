@@ -43,7 +43,6 @@ end
 # @TODO make before application runs
 configuration = MetaCommit::Configuration.new
 configuration.set(:plugin_folder, File.join(File.expand_path(File.dirname(__FILE__)), 'meta_commit', 'plugins'))
-# configuration.fill_from_yaml('path/to/yaml')
 application = MetaCommit::Application.instance
 application.configuration=configuration
 application.boot

@@ -8,6 +8,7 @@ module MetaCommit::Factories
     def create_ast_path(source_ast, line_number)
       visited_nodes = []
       ast_path = MetaCommit::Models::ContextualAstNode.new
+      ast_path.parser_class = source_ast.parser_class
       ast_path.target_node = collect_path_to_ast_at_line(source_ast, line_number, visited_nodes)
       ast_path.context_nodes = visited_nodes
       ast_path

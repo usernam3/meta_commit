@@ -3,7 +3,7 @@ require 'rspec'
 describe MetaCommit::Factories::ContextualAstNodeFactory do
   describe '#create_ast_path' do
     it 'returns empty ast path when empty ast passed' do
-      source_ast = double(:source_ast, {:children => [], :first_line => 0, :last_line => 0})
+      source_ast = double(:source_ast, {:parser_class => Class, :children => [], :first_line => 0, :last_line => 0})
 
       ast_path = subject.create_ast_path(source_ast, 2)
 
@@ -13,6 +13,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
     end
     it 'returns nil when ast not found' do
       source_ast = double(:source_ast, {
+          :parser_class => Class,
           :first_line => 0,
           :last_line => 2,
           :children => [
@@ -29,6 +30,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
     it 'returns lowest level ast on line' do
       deepest_child = double(:deepest_child, {:first_line => 1, :last_line => 2, :children => []})
       source_ast = double(:source_ast, {
+          :parser_class => Class,
           :first_line => 0,
           :last_line => 2,
           :children => [
@@ -44,6 +46,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
     end
     it 'adds every level of passed ast to context' do
       source_ast = double(:source_ast, {
+          :parser_class => Class,
           :first_line => 0,
           :last_line => 5,
           :children => [
@@ -66,6 +69,24 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
                                                source_ast.children.last.children.first,
                                                source_ast.children.last.children.first.children.last,
                                            ])
+    end
+
+    it 'assigns parser class from passed ast' do
+      deepest_child = double(:deepest_child, {:first_line => 1, :last_line => 2, :children => []})
+      source_ast = double(:source_ast, {
+          :parser_class => :parser_class,
+          :first_line => 0,
+          :last_line => 2,
+          :children => [
+              double(:child1, {:parser_class => :parser_class1,:first_line => 0, :last_line => 1, :children => []}),
+              double(:child2, {:parser_class => :parser_class2,:first_line => 1, :last_line => 2, :children => [deepest_child]}),
+              double(:child3, {:parser_class => :parser_class3,:first_line => 2, :last_line => 3, :children => []})
+          ]
+      })
+
+      ast_path = subject.create_ast_path(source_ast, 1)
+
+      expect(ast_path.parser_class).to eq(:parser_class)
     end
   end
 end
