@@ -1,11 +1,13 @@
 module MetaCommit
-  module Plugin
+  module Extension
   end
 
   require "meta_commit/version"
+  require "meta_commit_contracts"
   require "meta_commit/errors"
   require "meta_commit/configuration"
-  require "meta_commit/application"
+  require "meta_commit/configuration_store"
+  require "meta_commit/container"
   require "meta_commit/cli"
 
   # changelog command
@@ -25,7 +27,6 @@ module MetaCommit
   require "meta_commit/models/contextual_ast_node"
   require "meta_commit/models/line"
   require "meta_commit/models/changes/commit"
-  require "meta_commit/models/changes/file"
   require "meta_commit/models/changes/repository"
   require "meta_commit/models/diffs/diff"
 
@@ -39,11 +40,3 @@ module MetaCommit
   require "meta_commit/services/parse"
   require "meta_commit/git/repo"
 end
-
-# @TODO make before application runs
-configuration = MetaCommit::Configuration.new
-configuration.set(:plugin_folder, File.join(File.expand_path(File.dirname(__FILE__)), 'meta_commit', 'plugins'))
-application = MetaCommit::Application.instance
-application.configuration=configuration
-application.boot
-# @TODO make before application runs

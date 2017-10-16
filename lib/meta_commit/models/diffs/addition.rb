@@ -1,4 +1,4 @@
-module MetaCommit::Plugin::Ruby::Diffs
+module MetaCommit::Extension::RubySupport::Diffs
   class Addition < Diff
     def string_representation
       action = 'created'

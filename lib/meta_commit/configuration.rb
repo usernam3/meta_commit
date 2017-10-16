@@ -15,10 +15,31 @@ module MetaCommit
       self[key]
     end
 
+    # Fill config values from yaml file
     # @param [Hash] hash
     # @return [MetaCommit::Configuration]
     def fill_from_hash(hash)
-      hash.each { |key, value| set(key.to_sym, value) }
+      hash.each {|key, value| set(key.to_sym, value)}
+      self
     end
+
+    # Fill config values from yaml file
+    # @param [String] path
+    # @return [MetaCommit::Configuration]
+    def fill_from_yaml_file(path)
+      fill_from_hash read_from_yaml(path)
+    end
+
+    # @param [String] path
+    # @return [Hash]
+    def read_from_yaml(path)
+      begin
+        YAML::load_file(path)
+      rescue Errno::ENOENT => e
+        raise MetaCommit::Errors::MissingConfigError
+      end
+    end
+
+    protected :read_from_yaml
   end
 end

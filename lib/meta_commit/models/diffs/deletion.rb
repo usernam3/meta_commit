@@ -1,4 +1,4 @@
-module MetaCommit::Plugin::Ruby::Diffs
+module MetaCommit::Extension::RubySupport::Diffs
   class Deletion < Diff
     def string_representation
       action = 'removed'

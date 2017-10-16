@@ -4,4 +4,9 @@ module MetaCommit::Errors
       super(msg)
     end
   end
+  class MissingConfigError < StandardError
+    def initialize(msg='Passed config file does not exist')
+      super(msg)
+    end
+  end
 end

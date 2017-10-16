@@ -1,4 +1,4 @@
-module MetaCommit::Plugin::Ruby::Diffs
+module MetaCommit::Extension::RubySupport::Diffs
   class Replacement < Diff
     def string_representation
       if @old_ast_path.ast.is_name_of_module? && @new_ast_path.ast.is_name_of_module?

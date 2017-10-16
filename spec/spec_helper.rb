@@ -6,3 +6,5 @@ require 'rspec/mocks'
 RSpec.configure do |config|
   config.mock_framework = :rspec
 end
+
+require 'support/config_file_accessor'
