@@ -50,9 +50,9 @@ To be autoloaded by meta commit core it must follow agreements :
     -   Which returns array of parser classes on `MetaCommit::Extension::#{ExtensionName}::Locator#parsers`
     -   Which returns array of diff classes on `MetaCommit::Extension::#{ExtensionName}::Locator#diffs`
 
-Meta commit uses contracts to interact with extensions, you can check this contracts [here](https://github.com/meta-commit/contracts) .
+Meta commit uses contracts to interact with extensions, you can check this contracts [here](https://github.com/meta-commit/contracts).
 
-To understand better how to build extension you can check [extension that adds ruby language support](https://github.com/meta-commit/contracts).
+To understand better how to build extension you can check [extension that adds ruby language support](https://github.com/meta-commit/ruby_support).
 
 
 ---
