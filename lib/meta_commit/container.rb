@@ -26,9 +26,11 @@ module MetaCommit
     def load_packages(extensions_to_load)
       # @TODO refactor so it search in GEM_HOME dir (?)
       required_extensions(extensions_to_load).each do |gem|
-        gem_source_path = File.join(gem.full_gem_path, 'lib')
-        $LOAD_PATH.unshift gem_source_path
-        require gem.name
+        gem.require_paths.each do |path|
+          gem_source_path = File.join(gem.full_gem_path, path)
+          $LOAD_PATH.unshift gem_source_path
+          require gem.name
+        end
 
         extension = extension_class(camelize(without_extension_prefix(gem.name))).new
 

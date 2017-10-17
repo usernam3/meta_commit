@@ -70,24 +70,6 @@ module MetaCommit
       say('repository successfully indexed')
     end
 
-    desc 'extensions', 'list available extensions'
-    option :directory, :type => :string, :default => Dir.pwd
-
-    def extensions
-      repository_path = options[:directory]
-      configuration_path = File.join(repository_path, MetaCommit::ConfigurationStore::META_COMMIT_CONFIG_FILENAME)
-
-      container = boot_container_with_config(configuration_path)
-
-      puts container[:parser_classes]
-      puts container[:diff_classes]
-      # MetaCommit::Application.instance.extensions.each do |gem|
-      #   puts gem.name
-      #   puts gem.full_gem_path
-      # end
-      # MetaCommit::Application.instance.load_packages
-    end
-
     no_commands do
       # @param [String] configuration_path
       # @return [MetaCommit::Container]

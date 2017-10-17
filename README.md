@@ -23,6 +23,33 @@ You can install gem with the following command in a terminal:
     $ gem install meta_commit
 
 
+## Setup
+
+To setup ```meta_commit``` gem for your repository you need to add configuration file to root of repo.
+Currently meta commit expects configuration file with name `.meta_commit.yml` of this format : 
+
+```YAML
+commands :
+  changelog:
+    adapter: file
+    formatter: keep_a_changelog
+  index:
+    adapter: git_notes
+  message:
+    formatter: commit_message
+
+extensions:
+  - ruby_support
+  - extension2
+  - extension3
+  - extension4
+```
+
+This config can be used to change gem behavior, currently it supports only `extensions` key.
+Elements of `extensions` list are gem names (without `meta_commit_` prefix) that will be loaded.
+[Here](https://github.com/usernam3/meta_commit/blob/master/CONTRIBUTING.md) you can get more information about how to create new extension. 
+
+
 ## Usage
 
 ### Message
