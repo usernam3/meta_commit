@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wU -W0
+#!/usr/bin/env ruby
 
 require 'meta_commit'
 
