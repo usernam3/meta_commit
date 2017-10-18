@@ -20,7 +20,7 @@ module MetaCommit::Changelog
 
       # Builds changelog message and adds it after description text and before latest version
       # @param repo
-      # @param [Array<MetaCommit::Models::Diffs::Diff>] diffs
+      # @param [Array<MetaCommit::Contracts::Diff>] diffs
       # @return [String]
       def write_repository_change_chunk(repo, diffs)
         message_builder = changelog_message_builder(@tag, @date)

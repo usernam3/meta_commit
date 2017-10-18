@@ -28,7 +28,6 @@ module MetaCommit
   require "meta_commit/models/line"
   require "meta_commit/models/changes/commit"
   require "meta_commit/models/changes/repository"
-  require "meta_commit/models/diffs/diff"
 
   # factories
   require "meta_commit/factories/diff_factory"

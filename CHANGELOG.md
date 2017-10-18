@@ -18,3 +18,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Extract ruby specific diffs and parser to separate [extension](https://github.com/meta-commit/ruby_support)
 - Extract contracts to separate [gem](https://github.com/meta-commit/contracts)
+- Delete base diff class

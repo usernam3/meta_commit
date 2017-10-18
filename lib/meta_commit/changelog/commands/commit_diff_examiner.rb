@@ -15,7 +15,7 @@ module MetaCommit::Changelog
       # @param [MetaCommit::Git::Repo] repo
       # @param [String] left_commit commit id
       # @param [String] right_commit commit id
-      # @return [Array<MetaCommit::Models::Diffs::Diff>]
+      # @return [Array<MetaCommit::Contracts::Diff>]
       def meta(repo, left_commit, right_commit)
         diffs = []
         commit_id_old = left_commit.oid

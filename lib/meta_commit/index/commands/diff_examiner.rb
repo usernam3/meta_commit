@@ -23,7 +23,7 @@ module MetaCommit::Index
         repo_changes
       end
 
-      # @return [Array<MetaCommit::Models::Diffs::Diff>]
+      # @return [Array<MetaCommit::Contracts::Diff>]
       def examine_diff(repo, left_commit, right_commit)
         diffs = []
         repo.diff_with_optimized_lines(left_commit, right_commit) do |old_file_path, new_file_path, patch, line|

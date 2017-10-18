@@ -2,7 +2,7 @@ module MetaCommit::Message
   module Formatters
     # Class builds message to commit changes
     class CommitMessageBuilder
-      # @param [Array<MetaCommit::Models::Diffs::Diff>] diffs
+      # @param [Array<MetaCommit::Contracts::Diff>] diffs
       # @return [String]
       def build(diffs)
         result = ''

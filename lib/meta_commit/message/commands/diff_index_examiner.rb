@@ -12,7 +12,7 @@ module MetaCommit::Message
 
       # Creates diff objects with meta information of changes in index staged files
       # @param [MetaCommit::Git::Repo] repo
-      # @return [Array<MetaCommit::Models::Diffs::Diff>]
+      # @return [Array<MetaCommit::Contracts::Diff>]
       def index_meta(repo)
         diffs = MetaCommit::Models::Changes::Commit.new(repo.last_commit_oid, 'staged')
         repo.index_diff_with_optimized_lines do |old_file_path, new_file_path, patch, line|
