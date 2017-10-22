@@ -5,11 +5,11 @@ module MetaCommit::Message
       # @param [Array<MetaCommit::Contracts::Diff>] diffs
       # @return [String]
       def build(diffs)
-        result = ''
+        result = []
         diffs.each do |diff|
           result << "- #{diff.string_representation} \n"
         end
-        result
+        result.uniq.join
       end
     end
   end

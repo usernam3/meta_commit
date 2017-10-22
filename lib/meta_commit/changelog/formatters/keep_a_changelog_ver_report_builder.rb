@@ -60,7 +60,7 @@ module MetaCommit::Changelog
       def changes_group_entry(type, changes)
         header = ["### #{type}"]
         list = changes.map { |change| "- #{change}" }
-        ([header] + list).join("\n")
+        ([header] + list).uniq.join("\n")
       end
 
       private :changes_group_entry

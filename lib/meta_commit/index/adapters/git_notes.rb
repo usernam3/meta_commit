@@ -18,7 +18,7 @@ module MetaCommit::Index
           commit_changes.file_changes.uniq.each do |change|
             diffs.push(" - #{change.string_representation}")
           end
-          write_to_notes(commit_changes.new_commit_id, diffs.join("\n"))
+          write_to_notes(commit_changes.new_commit_id, diffs.uniq.join("\n"))
         end
       end
 

@@ -8,6 +8,29 @@ describe MetaCommit::Changelog::Formatters::KeepAChangelogVerReportBuilder do
       expect(subject.build).to include('v 0.0.0')
       expect(subject.build).to include('1234-56789')
     end
+    it 'prints unique changes' do
+      subject.add_to_added('added1')
+      subject.add_to_added('added1')
+      subject.add_to_changed('changed1')
+      subject.add_to_changed('changed1')
+      subject.add_to_deprecated('deprecated1')
+      subject.add_to_deprecated('deprecated1')
+      subject.add_to_removed('removed1')
+      subject.add_to_removed('removed1')
+      subject.add_to_fixed('fixed1')
+      subject.add_to_fixed('fixed1')
+      subject.add_to_security('security1')
+      subject.add_to_security('security1')
+
+      result = subject.build
+
+      expect(result.scan(/added1/).count).to eq 1
+      expect(result.scan(/changed1/).count).to eq 1
+      expect(result.scan(/deprecated1/).count).to eq 1
+      expect(result.scan(/removed1/).count).to eq 1
+      expect(result.scan(/fixed1/).count).to eq 1
+      expect(result.scan(/security1/).count).to eq 1
+    end
   end
   describe '#add_to_added' do
     subject { MetaCommit::Changelog::Formatters::KeepAChangelogVerReportBuilder.new('', '') }
