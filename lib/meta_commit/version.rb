@@ -1,3 +1,3 @@
 module MetaCommit
-  VERSION = "0.2.0-pre.alpha"
+  VERSION = "0.2.0"
 end

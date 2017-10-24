@@ -9,7 +9,7 @@
 
 ## Description
 
-[![v0.1 demonstration](https://asciinema.org/a/6nlvujsgeoa1xtp9l9qhx8lry.png)](https://asciinema.org/a/6nlvujsgeoa1xtp9l9qhx8lry?autoplay=1)
+[![v0.2 demonstration](https://asciinema.org/a/svV2TBICPgp7pOWneRI30WDel.png)](https://asciinema.org/a/svV2TBICPgp7pOWneRI30WDel?autoplay=1)
 
 meta commit - is set of commands for git repository, which extracts useful information from commits and allows to get more insights from usual actions with repository.
 
@@ -54,13 +54,13 @@ Elements of `extensions` list are gem names (without `meta_commit_` prefix) that
 
 ### Message
 
-    meta_commit message [--repo=$(pwd)]
+    meta_commit message [--directory=$(pwd)]
 
 Prints description of current changes in repository index
 
 ### Index
 
-    meta_commit index [--repo=$(pwd)]
+    meta_commit index [--directory=$(pwd)]
 
 Walks over repository commits and writes meta information to git notes
 
