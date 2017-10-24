@@ -5,6 +5,8 @@ module MetaCommit::Git
   # @attr [Rugged::Repository] repo
   class Repo
     DIFF_OPTIONS = {:context_lines => 0, :ignore_whitespace => true}
+    INDEX_DIFF_OPTIONS = {:context_lines => 0, :ignore_whitespace => true, :reverse => true}
+
     FILE_NOT_EXISTS_OID = '0000000000000000000000000000000000000000'
 
     attr_accessor :repo
@@ -72,7 +74,7 @@ module MetaCommit::Git
     # @yield [old_file_path, new_file_path, patch, line]
     # @return [Object]
     def index_diff_with_optimized_lines
-      diff = index_diff(DIFF_OPTIONS)
+      diff = index_diff(INDEX_DIFF_OPTIONS)
       diff.deltas.zip(diff.patches).each do |delta, patch|
         lines = organize_lines(delta, patch)
         lines.each do |line|
