@@ -70,6 +70,12 @@ module MetaCommit
       say('repository successfully indexed')
     end
 
+    desc 'version', 'prints meta_commit gem version'
+
+    def version
+      say(MetaCommit::VERSION)
+    end
+
     no_commands do
       # @param [String] configuration_path
       # @return [MetaCommit::Container]
