@@ -3,6 +3,8 @@ module MetaCommit
   class Container
     include Dry::Container::Mixin
 
+    BUILTIN_EXTENSION = 'builtin'
+
     def initialize
       super
       register :parser_classes, []
@@ -37,9 +39,21 @@ module MetaCommit
         self[:parser_classes].concat(extension.parsers)
         self[:diff_classes].concat(extension.diffs)
       end
+      load_builtin_extension if extensions_to_load.include?(BUILTIN_EXTENSION)
     end
 
     protected :load_packages
+
+    def load_builtin_extension
+      require 'meta_commit/extensions/builtin'
+
+      extension = extension_class(camelize(without_extension_prefix('builtin'))).new
+
+      self[:parser_classes].concat(extension.parsers)
+      self[:diff_classes].concat(extension.diffs)
+    end
+
+    protected :load_builtin_extension
 
     # @param [Array<String>] extensions_to_load
     # @return [Array<String>]
