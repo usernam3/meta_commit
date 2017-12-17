@@ -4,13 +4,16 @@ Feature: Error message when not a valid git repository passed
   I want program to report me about it
 
   Scenario: Run index command
-    When I run `bundle exec meta_commit index --directory=/qwe/foo/bar/baz`
+    Given missing git repository
+    When I run meta_commit command `index`
     Then the output should contain "Passed directory is not a git repo"
 
   Scenario: Run changelog command
-    When I run `bundle exec meta_commit changelog --directory=/qwe/foo/bar/baz`
+    Given missing git repository
+    When I run meta_commit command `changelog`
     Then the output should contain "Passed directory is not a git repo"
 
   Scenario: Run message command
-    When I run `bundle exec meta_commit message --directory=/qwe/foo/bar/baz`
+    Given missing git repository
+    When I run meta_commit command `message`
     Then the output should contain "Passed directory is not a git repo"

@@ -4,5 +4,5 @@ Feature: Print gem version
   I want command to report me it
 
   Scenario: Run version command
-    When I run `bundle exec meta_commit version`
+    When I run meta_commit command `version`
     Then the output should contain gem version
