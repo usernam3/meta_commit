@@ -60,5 +60,20 @@ module MetaCommit::Extension::Builtin
     def to_s
       string_representation
     end
+
+    # @return [Boolean]
+    def type_addition?
+      @diff_type == :addition
+    end
+
+    # @return [Boolean]
+    def type_deletion?
+      @diff_type == :deletion
+    end
+
+    # @return [Boolean]
+    def type_replace?
+      @diff_type == :replace
+    end
   end
 end
