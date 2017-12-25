@@ -26,14 +26,16 @@ module MetaCommitWorld
     command_options.join(' ')
   end
 
-  def changelog_file_path(file)
-    changelog_fixtures = File.join(File.dirname(File.dirname(__FILE__)), 'fixtures', 'changelogs')
-    File.join(changelog_fixtures, file)
+  def fixture_changelog_file_path(file)
+    File.join(File.dirname(File.dirname(__FILE__)), 'fixtures', 'changelogs', file)
+  end
+
+  def fixture_note_file_path(repository, object_id)
+    File.join(File.dirname(File.dirname(__FILE__)), 'fixtures', 'notes', repository, object_id)
   end
 
   def repository_file_path(repository, file)
-    repository_fixtures = File.join(File.dirname(File.dirname(__FILE__)), 'tmp', 'repositories')
-    File.join(repository_fixtures, repository, file)
+    File.join(File.dirname(File.dirname(__FILE__)), 'tmp', 'repositories', repository, file)
   end
 end
 
