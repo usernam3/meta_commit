@@ -1,5 +1,5 @@
 require 'meta_commit/version'
 
 Then 'the output should contain gem version' do
-  expect(last_command_started).to have_output(MetaCommit::VERSION)
+  step("the output should contain \"#{MetaCommit::VERSION}\"")
 end
