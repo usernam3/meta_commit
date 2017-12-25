@@ -1,0 +1,11 @@
+ - replace | in files some_module.rb:2 some_module.rb:2 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:3 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:4 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:5 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:6 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:7 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:8 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:9 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:10 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:11 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf
+ - addition | in files some_module.rb:-1 some_module.rb:12 | between commits c10aefff1e67e1ad985b1f3be0169fdaf00c83a0 and c3282c0b8808765b314b95f0f9287266aed531cf

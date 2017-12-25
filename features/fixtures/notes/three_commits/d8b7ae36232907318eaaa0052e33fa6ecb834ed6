@@ -1,0 +1,13 @@
+ - deletion | in files some_module.rb:3 some_module.rb:-1 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - replace | in files some_module.rb:4 some_module.rb:3 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:4 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - replace | in files some_module.rb:7 some_module.rb:7 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:8 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:9 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:10 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:11 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:12 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:13 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - deletion | in files some_module.rb:9 some_module.rb:-1 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - replace | in files some_module.rb:10 some_module.rb:15 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
+ - addition | in files some_module.rb:-1 some_module.rb:16 | between commits c3282c0b8808765b314b95f0f9287266aed531cf and d8b7ae36232907318eaaa0052e33fa6ecb834ed6
