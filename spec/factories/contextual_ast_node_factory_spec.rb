@@ -5,7 +5,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
     it 'returns empty ast path when empty ast passed' do
       source_ast = double(:source_ast, {:parser_class => Class, :children => [], :first_line => 0, :last_line => 0})
 
-      ast_path = subject.create_ast_path(source_ast, 2)
+      ast_path = subject.create_contextual_node(source_ast, 2)
 
       expect(ast_path).to be_a(MetaCommit::Models::ContextualAstNode)
       expect(ast_path.target_node).to be nil
@@ -22,7 +22,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
           ]
       })
 
-      ast_path = subject.create_ast_path(source_ast, 3)
+      ast_path = subject.create_contextual_node(source_ast, 3)
 
       expect(ast_path.target_node).to be nil
       expect(ast_path.context_nodes).to be_empty
@@ -40,7 +40,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
           ]
       })
 
-      ast_path = subject.create_ast_path(source_ast, 1)
+      ast_path = subject.create_contextual_node(source_ast, 1)
 
       expect(ast_path.target_node).to eq(deepest_child)
     end
@@ -61,7 +61,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
           ]
       })
 
-      ast_path = subject.create_ast_path(source_ast, 3)
+      ast_path = subject.create_contextual_node(source_ast, 3)
 
       expect(ast_path.context_nodes).to eq([
                                                source_ast,
@@ -84,7 +84,7 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
           ]
       })
 
-      ast_path = subject.create_ast_path(source_ast, 1)
+      ast_path = subject.create_contextual_node(source_ast, 1)
 
       expect(ast_path.parser_class).to eq(:parser_class)
     end

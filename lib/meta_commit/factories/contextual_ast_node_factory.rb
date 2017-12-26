@@ -5,7 +5,7 @@ module MetaCommit::Factories
     # @param [MetaCommit::Contracts::Ast] source_ast
     # @param [Integer] line_number
     # @return [MetaCommit::Models::ContextualAstNode]
-    def create_ast_path(source_ast, line_number)
+    def create_contextual_node(source_ast, line_number)
       visited_nodes = []
       ast_path = MetaCommit::Models::ContextualAstNode.new
       ast_path.parser_class = source_ast.parser_class
