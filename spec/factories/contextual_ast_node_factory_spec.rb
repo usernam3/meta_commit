@@ -70,7 +70,6 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
                                                source_ast.children.last.children.first.children.last,
                                            ])
     end
-
     it 'assigns parser class from passed ast' do
       deepest_child = double(:deepest_child, {:first_line => 1, :last_line => 2, :children => []})
       source_ast = double(:source_ast, {
@@ -87,6 +86,25 @@ describe MetaCommit::Factories::ContextualAstNodeFactory do
       ast_path = subject.create_contextual_node(source_ast, 1)
 
       expect(ast_path.parser_class).to eq(:parser_class)
+    end
+    it 'returns passed ast as target node when ' do
+      source_ast = double(:source_ast, {
+          :parser_class => :parser_class,
+          :first_line => 0,
+          :last_line => 2,
+          :children => [
+              double(:child1, {:parser_class => :parser_class1, :first_line => 0, :last_line => 1, :children => []}),
+              double(:child2, {:parser_class => :parser_class2, :first_line => 1, :last_line => 2, :children => [
+                  double(:deepest_child, {:first_line => 1, :last_line => 2, :children => []}),
+              ]}),
+              double(:child3, {:parser_class => :parser_class3, :first_line => 2, :last_line => 3, :children => []})
+          ]
+      })
+
+      ast_path = subject.create_contextual_node(source_ast, MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE)
+
+      expect(ast_path.target_node).to eq(source_ast)
+      expect(ast_path.context_nodes).to eq([])
     end
   end
 end

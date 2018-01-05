@@ -1,7 +1,7 @@
 module MetaCommit::Factories
   # Factory that builds ContextualAstNode from ast nodes
   class ContextualAstNodeFactory
-
+    WHOLE_FILE=-1
     # @param [MetaCommit::Contracts::Ast] source_ast
     # @param [Integer] line_number
     # @return [MetaCommit::Models::ContextualAstNode]
@@ -11,6 +11,7 @@ module MetaCommit::Factories
       ast_path.parser_class = source_ast.parser_class
       ast_path.target_node = collect_path_to_ast_at_line(source_ast, line_number, visited_nodes)
       ast_path.context_nodes = visited_nodes
+      ast_path.whole_file_change = (line_number==WHOLE_FILE)
       ast_path
     end
 
@@ -19,6 +20,7 @@ module MetaCommit::Factories
     # @param [Array<MetaCommit::Contracts::Ast>] accumulator
     # @return [MetaCommit::Contracts::Ast]
     def collect_path_to_ast_at_line(ast, lineno, accumulator)
+      return ast if lineno == WHOLE_FILE
       return nil if ast.nil? or not covers_line(ast, lineno)
       closest_ast = ast
       accumulator.push(closest_ast)
