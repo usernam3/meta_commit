@@ -33,5 +33,17 @@ describe MetaCommit::Index::Adapters::GitNotes do
 
       adapter.write_repository_change_chunk(repo, repo_changes)
     end
+    it 'does not write empty changes' do
+      repo = double(:repo)
+      repo_changes = double(:repo_changes)
+      commit_changes = double(:commit_changes, {:new_commit_id => 'new_commit_id', file_changes: []})
+      expect(repo_changes).to receive(:each).and_yield(commit_changes)
+
+      adapter = MetaCommit::Index::Adapters::GitNotes.new('git folder path')
+
+      expect(adapter).not_to receive(:system)
+
+      adapter.write_repository_change_chunk(repo, repo_changes)
+    end
   end
 end

@@ -25,6 +25,7 @@ module MetaCommit::Index
       # @param [String] commit_id
       # @param [String] message
       def write_to_notes(commit_id, message)
+        return if message.empty?
         system("git --git-dir '#{@git_folder_path}' notes add -f -m '#{message}' #{commit_id}")
       end
 
