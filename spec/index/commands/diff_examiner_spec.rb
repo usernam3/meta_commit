@@ -3,25 +3,25 @@ require 'spec_helper'
 
 describe MetaCommit::Index::Commands::DiffExaminer do
   describe '#meta' do
-    let(:parse_command) { double(:parse_command) }
-    let(:ast_path_factory) { double(:ast_path_factory) }
-    let(:diff_factory) { double(:diff_factory) }
+    let(:parse_command) {double(:parse_command)}
+    let(:ast_path_factory) {double(:ast_path_factory)}
+    let(:diff_factory) {double(:diff_factory)}
 
-    let(:old_file_path) { double(:old_file_path) }
-    let(:old_file_content) { :old_file_content }
-    let(:old_file_oid) { :old_file_oid }
-    let(:old_ast) { double(:old_ast) }
-    let(:old_ast_path) { double(:old_ast_path) }
-    let(:new_file_path) { double(:new_file_path) }
-    let(:new_file_content) { :new_file_content }
-    let(:new_file_oid) { :new_file_oid }
-    let(:new_ast) { double(:new_ast) }
-    let(:new_ast_path) { double(:new_ast_path) }
+    let(:old_file_path) {double(:old_file_path)}
+    let(:old_file_content) {:old_file_content}
+    let(:old_file_oid) {:old_file_oid}
+    let(:old_ast) {double(:old_ast)}
+    let(:old_ast_path) {double(:old_ast_path)}
+    let(:new_file_path) {double(:new_file_path)}
+    let(:new_file_content) {:new_file_content}
+    let(:new_file_oid) {:new_file_oid}
+    let(:new_ast) {double(:new_ast)}
+    let(:new_ast_path) {double(:new_ast_path)}
 
-    let(:patch) { double(:patch) }
-    let(:line) { double(:line, {:line_origin => 1, :old_lineno => 'old_lineno', :new_lineno => 'new_lineno'}) }
-    let(:ast_mock) { double(:ast_mock) }
-    let(:created_diff) { double(:created_diff) }
+    let(:patch) {double(:patch)}
+    let(:line) {double(:line, {:line_origin => 1, :old_lineno => 'old_lineno', :new_lineno => 'new_lineno'})}
+    let(:ast_mock) {double(:ast_mock)}
+    let(:created_diff) {double(:created_diff)}
 
     subject do
       MetaCommit::Index::Commands::DiffExaminer.new(parse_command, ast_path_factory, diff_factory)
@@ -82,6 +82,10 @@ describe MetaCommit::Index::Commands::DiffExaminer do
       repo = double(:repo, :path => 'path')
       left = double(:left, {:oid => old_file_oid})
       right = double(:right, {:oid => new_file_oid})
+      patch = double(:patch, {:delta => double(:delta, {
+          :new_file => {:oid => :oid},
+          :old_file => {:oid => :oid},
+      })})
 
       expect(repo).to receive(:walk_by_commits)
                           .and_yield(left, right)

@@ -46,7 +46,8 @@ module MetaCommit::Extension::Builtin
     attr_writer :diff_type, :commit_old, :commit_new, :old_file, :new_file, :old_lineno, :new_lineno, :old_ast_path, :new_ast_path
 
     def string_representation
-      "#{@diff_type} | in files #{@old_file}:#{@old_lineno} #{@new_file}:#{@new_lineno} | between commits #{@commit_old} and #{@commit_new}"
+      prefix='all file ' if @new_ast_path.whole_file_change
+      "#{prefix}#{@diff_type} | in files #{@old_file}:#{@old_lineno} #{@new_file}:#{@new_lineno} | between commits #{@commit_old} and #{@commit_new}"
     end
 
     def supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)
