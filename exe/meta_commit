@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'meta_commit'
-
-begin
-    MetaCommit::ApplicationInterface.start( ARGV )
-rescue MetaCommit::Errors::MissingRepoError => e
-    Thor.new.say(e.message)
-end
