@@ -36,17 +36,17 @@ module MetaCommit::Index
           next if new_file_ast.nil?
 
           old_file_deleted=(patch.delta.new_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
-          old_ast_path=@ast_path_factory.create_contextual_node(old_file_ast, (old_file_deleted) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.old_lineno))
+          old_contextual_ast=@ast_path_factory.create_contextual_node(old_file_ast, (old_file_deleted) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.old_lineno))
 
           new_file_created=(patch.delta.old_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
-          new_ast_path=@ast_path_factory.create_contextual_node(new_file_ast, (new_file_created) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.new_lineno))
+          new_contextual_ast=@ast_path_factory.create_contextual_node(new_file_ast, (new_file_created) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.new_lineno))
 
           created_diff = @diff_factory.create_diff_of_type(line.line_origin, {
               :line => line,
               :commit_id_old => left_commit.oid,
               :commit_id_new => right_commit.oid,
-              :old_ast_path => old_ast_path,
-              :new_ast_path => new_ast_path,
+              :old_contextual_ast => old_contextual_ast,
+              :new_contextual_ast => new_contextual_ast,
               :old_file_path => old_file_path,
               :new_file_path => new_file_path,
           })

@@ -56,6 +56,10 @@ describe MetaCommit::Message::Commands::DiffIndexExaminer do
     end
     it 'passes parameters to diff factory' do
       repo = double(:repo, {:last_commit_oid => 'last_commit_oid'})
+      patch = double(:patch, {:delta => double(:delta, {
+          :new_file => {:oid => :oid},
+          :old_file => {:oid => :oid},
+      })})
 
       expect(repo).to receive(:index_diff_with_optimized_lines)
                           .and_yield(old_file_path, new_file_path, patch, line)
@@ -75,8 +79,8 @@ describe MetaCommit::Message::Commands::DiffIndexExaminer do
                                       :line => line,
                                       :commit_id_old => 'last_commit_oid',
                                       :commit_id_new => 'staged',
-                                      :old_ast_path => old_ast_path,
-                                      :new_ast_path => new_ast_path,
+                                      :old_contextual_ast => old_ast_path,
+                                      :new_contextual_ast => new_ast_path,
                                       :old_file_path => old_file_path,
                                       :new_file_path => new_file_path,
                                   }).and_return(created_diff)

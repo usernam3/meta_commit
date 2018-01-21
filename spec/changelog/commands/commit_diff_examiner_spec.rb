@@ -72,6 +72,10 @@ describe MetaCommit::Changelog::Commands::CommitDiffExaminer do
       repo = double(:repo)
       left = double(:left, {:oid => old_file_oid})
       right = double(:right, {:oid => new_file_oid})
+      patch = double(:patch, {:delta => double(:delta, {
+          :new_file => {:oid => :oid},
+          :old_file => {:oid => :oid},
+      })})
 
       expect(repo).to receive(:diff_with_optimized_lines).with(left, right)
                           .and_yield(old_file_path, new_file_path, patch, line)
@@ -91,8 +95,8 @@ describe MetaCommit::Changelog::Commands::CommitDiffExaminer do
                                       :line => line,
                                       :commit_id_old => old_file_oid,
                                       :commit_id_new => new_file_oid,
-                                      :old_ast_path => old_ast_path,
-                                      :new_ast_path => new_ast_path,
+                                      :old_contextual_ast => old_ast_path,
+                                      :new_contextual_ast => new_ast_path,
                                       :old_file_path => old_file_path,
                                       :new_file_path => new_file_path,
                                   }).and_return(created_diff)

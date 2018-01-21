@@ -6,8 +6,8 @@ describe MetaCommit::Factories::DiffFactory do
         :line => Rugged::Diff::Line.new,
         :old_file_path => 'old_file_path',
         :new_file_path => 'new_file_path',
-        :old_ast_path => double(:old_ast_path, {:parser_class => :parser_obj}),
-        :new_ast_path => double(:new_ast_path, {:parser_class => :parser_obj}),
+        :new_contextual_ast => double(:new_contextual_ast, {:parser_class => :parser_obj}),
+        :old_contextual_ast => double(:old_contextual_ast, {:parser_class => :parser_obj}),
         :commit_id_old => 'commit_id_old',
         :commit_id_new => 'commit_id_new',
     }}

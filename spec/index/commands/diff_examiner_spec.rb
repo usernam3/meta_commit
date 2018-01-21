@@ -107,8 +107,8 @@ describe MetaCommit::Index::Commands::DiffExaminer do
                                       :line => line,
                                       :commit_id_old => old_file_oid,
                                       :commit_id_new => new_file_oid,
-                                      :old_ast_path => old_ast_path,
-                                      :new_ast_path => new_ast_path,
+                                      :old_contextual_ast => old_ast_path,
+                                      :new_contextual_ast => new_ast_path,
                                       :old_file_path => old_file_path,
                                       :new_file_path => new_file_path,
                                   }).and_return(created_diff)

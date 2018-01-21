@@ -7,12 +7,12 @@ module MetaCommit::Factories
     # @return [MetaCommit::Models::ContextualAstNode]
     def create_contextual_node(source_ast, line_number)
       visited_nodes = []
-      ast_path = MetaCommit::Models::ContextualAstNode.new
-      ast_path.parser_class = source_ast.parser_class
-      ast_path.target_node = collect_path_to_ast_at_line(source_ast, line_number, visited_nodes)
-      ast_path.context_nodes = visited_nodes
-      ast_path.whole_file_change = (line_number==WHOLE_FILE)
-      ast_path
+      contextual_node = MetaCommit::Models::ContextualAstNode.new
+      contextual_node.parser_class = source_ast.parser_class
+      contextual_node.target_node = collect_path_to_ast_at_line(source_ast, line_number, visited_nodes)
+      contextual_node.context_nodes = visited_nodes
+      contextual_node.whole_file_change = (line_number==WHOLE_FILE)
+      contextual_node
     end
 
     # @param [MetaCommit::Contracts::Ast] ast

@@ -15,9 +15,9 @@ module MetaCommit::Factories
     def create_diff_of_type(type, options)
       @available_diff_classes.each do |diff_class|
         diff = diff_class.new
-        if diff.supports_parser?(options[:old_ast_path].parser_class) &&
-            diff.supports_parser?(options[:new_ast_path].parser_class) &&
-            diff.supports_change(type, options[:old_file_path], options[:new_file_path], options[:old_ast_path], options[:new_ast_path])
+        if diff.supports_parser?(options[:old_contextual_ast].parser_class) &&
+            diff.supports_parser?(options[:new_contextual_ast].parser_class) &&
+            diff.supports_change(type, options[:old_file_path], options[:new_file_path], options[:old_contextual_ast], options[:new_contextual_ast])
           line = options[:line]
           diff.diff_type = line.line_origin
           diff.commit_old = options[:commit_id_old]
@@ -26,8 +26,8 @@ module MetaCommit::Factories
           diff.new_file = options[:new_file_path]
           diff.old_lineno = line.old_lineno
           diff.new_lineno = line.new_lineno
-          diff.old_ast_path = options[:old_ast_path]
-          diff.new_ast_path = options[:new_ast_path]
+          diff.old_ast_path = options[:old_contextual_ast]
+          diff.new_ast_path = options[:new_contextual_ast]
           return diff
         end
       end
