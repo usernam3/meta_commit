@@ -1,0 +1,10 @@
+# Site settings
+title: Meta commit
+tag_text: Meta commit
+description: Meta commit allows you to extract insights from project history
+
+# Build settings
+markdown: kramdown
+exclude: ["README.md"]
+sass:
+  style: compressed
