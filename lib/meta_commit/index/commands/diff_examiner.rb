@@ -41,7 +41,7 @@ module MetaCommit::Index
           new_file_created=(patch.delta.old_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
           new_contextual_ast=@ast_path_factory.create_contextual_node(new_file_ast, (new_file_created) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.new_lineno))
 
-          created_diff = @diff_factory.create_diff_of_type(line.line_origin, {
+          created_diff = @diff_factory.create_diff({
               :line => line,
               :commit_id_old => left_commit.oid,
               :commit_id_new => right_commit.oid,

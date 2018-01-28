@@ -102,8 +102,8 @@ describe MetaCommit::Index::Commands::DiffExaminer do
       expect(ast_path_factory).to receive(:create_contextual_node).with(new_ast, anything).and_return(new_ast_path)
 
 
-      expect(diff_factory).to receive(:create_diff_of_type)
-                                  .with(line.line_origin, {
+      expect(diff_factory).to receive(:create_diff)
+                                  .with({
                                       :line => line,
                                       :commit_id_old => old_file_oid,
                                       :commit_id_new => new_file_oid,

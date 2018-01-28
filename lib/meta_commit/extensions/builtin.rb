@@ -43,19 +43,17 @@ module MetaCommit::Extension::Builtin
   end
 
   class Diff < MetaCommit::Contracts::Diff
-    attr_writer :diff_type, :commit_old, :commit_new, :old_file, :new_file, :old_lineno, :new_lineno, :old_ast_path, :new_ast_path
-
     def string_representation
-      prefix='all file ' if @new_ast_path.whole_file_change
-      "#{prefix}#{@diff_type} | in files #{@old_file}:#{@old_lineno} #{@new_file}:#{@new_lineno} | between commits #{@commit_old} and #{@commit_new}"
+      prefix='all file ' if change_context.new_contextual_ast.whole_file_change
+      "#{prefix}#{change_context.type} | in files #{change_context.old_file_path}:#{change_context.old_lineno} #{change_context.new_file_path}:#{change_context.new_lineno} | between commits #{change_context.commit_id_old} and #{change_context.commit_id_new}"
     end
 
-    def supports_change(type, old_file_name, new_file_name, old_ast_path, new_ast_path)
+    def supports_change(context)
       true
     end
 
     def supports_parser?(parser)
-      true
+      [Parser].include?(parser)
     end
 
     def to_s
@@ -64,17 +62,17 @@ module MetaCommit::Extension::Builtin
 
     # @return [Boolean]
     def type_addition?
-      @diff_type == :addition
+      change_context.type == MetaCommit::Contracts::Diff::TYPE_ADDITION
     end
 
     # @return [Boolean]
     def type_deletion?
-      @diff_type == :deletion
+      change_context.type == MetaCommit::Contracts::Diff::TYPE_DELETION
     end
 
     # @return [Boolean]
     def type_replace?
-      @diff_type == :replace
+      change_context.type == MetaCommit::Contracts::Diff::TYPE_REPLACE
     end
   end
 end
