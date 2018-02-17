@@ -1,6 +1,7 @@
 # meta commit
 [![Gem Version](https://badge.fury.io/rb/meta_commit.svg)](https://badge.fury.io/rb/meta_commit)
 [![Build Status](https://travis-ci.org/usernam3/meta_commit.svg?branch=master)](https://travis-ci.org/usernam3/meta_commit)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ff142cfbcd634e8ad8f1/maintainability)](https://codeclimate.com/github/usernam3/meta_commit/maintainability)
 [![Coverage Status](https://coveralls.io/repos/github/usernam3/meta_commit/badge.svg?branch=master)](https://coveralls.io/github/usernam3/meta_commit?branch=master)
 [![Inline docs](https://inch-ci.org/github/usernam3/meta_commit.svg?branch=master)](http://inch-ci.org/github/usernam3/meta_commit)
 

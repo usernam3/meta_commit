@@ -27,14 +27,19 @@ module MetaCommit::Message
           new_file_ast = @parse_command.execute(new_file_path, new_file_content)
           next if new_file_ast.nil?
 
-          old_file_deleted=(patch.delta.new_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
-          old_contextual_ast=@ast_path_factory.create_contextual_node(old_file_ast, (old_file_deleted) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.old_lineno))
+          column_where_changes_start = line.compute_column(old_file_content, new_file_content)
 
-          new_file_created=(patch.delta.old_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
-          new_contextual_ast=@ast_path_factory.create_contextual_node(new_file_ast, (new_file_created) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.new_lineno))
+          old_file_deleted = (patch.delta.new_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
+          old_line_number = (old_file_deleted) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.old_lineno)
+          old_contextual_ast = @ast_path_factory.create_contextual_node(old_file_ast, old_line_number, column_where_changes_start)
+
+          new_file_created = (patch.delta.old_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
+          new_line_number = (new_file_created) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.new_lineno)
+          new_contextual_ast = @ast_path_factory.create_contextual_node(new_file_ast, new_line_number, column_where_changes_start)
 
           created_diff = @diff_factory.create_diff({
               :line => line,
+              :column => column_where_changes_start,
               :commit_id_old => commit_id_old,
               :commit_id_new => commit_id_new,
               :old_contextual_ast => old_contextual_ast,

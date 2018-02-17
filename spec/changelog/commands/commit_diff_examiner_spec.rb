@@ -1,4 +1,3 @@
-require 'rspec'
 require 'spec_helper'
 
 describe MetaCommit::Changelog::Commands::CommitDiffExaminer do
@@ -83,16 +82,19 @@ describe MetaCommit::Changelog::Commands::CommitDiffExaminer do
       expect(repo).to receive(:get_blob_at).with(anything, old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_blob_at).with(anything, new_file_path, anything).and_return(new_file_content)
 
+      expect(line).to receive(:compute_column).and_return(3)
+
       expect(parse_command).to receive(:execute).with(old_file_path, old_file_content).and_return(old_ast)
       expect(parse_command).to receive(:execute).with(new_file_path, new_file_content).and_return(new_ast)
 
-      expect(ast_path_factory).to receive(:create_contextual_node).with(old_ast, anything).and_return(old_ast_path)
-      expect(ast_path_factory).to receive(:create_contextual_node).with(new_ast, anything).and_return(new_ast_path)
+      expect(ast_path_factory).to receive(:create_contextual_node).with(old_ast, anything, 3).and_return(old_ast_path)
+      expect(ast_path_factory).to receive(:create_contextual_node).with(new_ast, anything, 3).and_return(new_ast_path)
 
 
       expect(diff_factory).to receive(:create_diff)
                                   .with({
                                       :line => line,
+                                      :column => 3,
                                       :commit_id_old => old_file_oid,
                                       :commit_id_new => new_file_oid,
                                       :old_contextual_ast => old_ast_path,

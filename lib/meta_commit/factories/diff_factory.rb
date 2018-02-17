@@ -35,6 +35,7 @@ module MetaCommit::Factories
       context.type = options[:line].line_origin
       context.old_lineno = options[:line].old_lineno
       context.new_lineno = options[:line].new_lineno
+      context.column = options[:column]
       context.commit_id_old = options[:commit_id_old]
       context.commit_id_new = options[:commit_id_new]
       context.old_contextual_ast = options[:old_contextual_ast]

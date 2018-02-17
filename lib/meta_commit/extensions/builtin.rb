@@ -44,8 +44,10 @@ module MetaCommit::Extension::Builtin
 
   class Diff < MetaCommit::Contracts::Diff
     def string_representation
-      prefix='all file ' if change_context.new_contextual_ast.whole_file_change
-      "#{prefix}#{change_context.type} | in files #{change_context.old_file_path}:#{change_context.old_lineno} #{change_context.new_file_path}:#{change_context.new_lineno} | between commits #{change_context.commit_id_old} and #{change_context.commit_id_new}"
+      prefix = 'all file ' if change_context.new_contextual_ast.whole_file_change
+      column = " (C#{change_context.column})" unless change_context.column.nil?
+
+      "#{prefix}#{change_context.type} | in files #{change_context.old_file_path}:#{change_context.old_lineno} #{change_context.new_file_path}:#{change_context.new_lineno}#{column} | between commits #{change_context.commit_id_old} and #{change_context.commit_id_new}"
     end
 
     def supports_change(context)

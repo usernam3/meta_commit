@@ -159,13 +159,15 @@ module MetaCommit::Git
 
           line_to_walk = MetaCommit::Models::Line.new
           if is_replace_change
-            line_to_walk.line_origin=:replace
-            line_to_walk.old_lineno=line.old_lineno
-            line_to_walk.new_lineno=next_line.new_lineno
+            line_to_walk.line_origin = :replace
+            line_to_walk.old_lineno = line.old_lineno
+            line_to_walk.new_lineno = next_line.new_lineno
+            line_to_walk.content_offset = next_line.content_offset
           else
-            line_to_walk.line_origin=line.line_origin
-            line_to_walk.old_lineno=line.old_lineno
-            line_to_walk.new_lineno=line.new_lineno
+            line_to_walk.line_origin = line.line_origin
+            line_to_walk.old_lineno = line.old_lineno
+            line_to_walk.new_lineno = line.new_lineno
+            line_to_walk.content_offset = line.content_offset
           end
           if is_replace_change
             skip_next_line = true
