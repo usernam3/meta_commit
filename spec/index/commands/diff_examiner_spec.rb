@@ -98,8 +98,8 @@ describe MetaCommit::Index::Commands::DiffExaminer do
       expect(parse_command).to receive(:execute).with(old_file_path, old_file_content).and_return(old_ast)
       expect(parse_command).to receive(:execute).with(new_file_path, new_file_content).and_return(new_ast)
 
-      expect(ast_path_factory).to receive(:create_contextual_node).with(old_ast, anything, nil).and_return(old_ast_path)
-      expect(ast_path_factory).to receive(:create_contextual_node).with(new_ast, anything, nil).and_return(new_ast_path)
+      expect(ast_path_factory).to receive(:create_contextual_node).with(old_ast, anything).and_return(old_ast_path)
+      expect(ast_path_factory).to receive(:create_contextual_node).with(new_ast, anything).and_return(new_ast_path)
 
 
       expect(diff_factory).to receive(:create_diff)

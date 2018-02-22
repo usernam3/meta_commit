@@ -12,6 +12,7 @@ module MetaCommit::Index
 
       # Creates diff objects with meta information of changes in repository commits
       # @param [MetaCommit::Git::Repo] repo
+      # @return [MetaCommit::Models::Changes::Repository]
       def meta(repo)
         repo_changes = MetaCommit::Models::Changes::Repository.new(repo.path)
         repo.walk_by_commits do |left_commit, right_commit|
@@ -39,11 +40,11 @@ module MetaCommit::Index
 
           old_file_deleted = (patch.delta.new_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
           old_line_number = (old_file_deleted) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.old_lineno)
-          old_contextual_ast = @ast_path_factory.create_contextual_node(old_file_ast, old_line_number, column_where_changes_start)
+          old_contextual_ast = @ast_path_factory.create_contextual_node(old_file_ast, old_line_number)
 
           new_file_created = (patch.delta.old_file[:oid] == MetaCommit::Git::Repo::FILE_NOT_EXISTS_OID)
           new_line_number = (new_file_created) ? (MetaCommit::Factories::ContextualAstNodeFactory::WHOLE_FILE) : (line.new_lineno)
-          new_contextual_ast = @ast_path_factory.create_contextual_node(new_file_ast, new_line_number, column_where_changes_start)
+          new_contextual_ast = @ast_path_factory.create_contextual_node(new_file_ast, new_line_number)
 
           created_diff = @diff_factory.create_diff({
               :line => line,
