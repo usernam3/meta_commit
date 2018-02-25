@@ -5,13 +5,18 @@ module MetaCommit::Models
     # Compares old_lineno line of old_file_content and new_lineno of new_file_content
     # @param [String] old_file_content
     # @param [String] new_file_content
-    # @return [Numeric] index of (first different)|(last common) symbol in string
+    # @return [Numeric, Nil] index of first different symbol in string
     def compute_column(old_file_content, new_file_content)
       return if old_file_content.empty? || new_file_content.empty?
       return if old_lineno == -1 || new_lineno == -1
 
-      old_line = old_file_content.split("\n")[old_lineno - 1]
-      new_line = new_file_content.split("\n")[new_lineno - 1]
+      old_file_lines = old_file_content.lines.map(&:chomp)
+      old_file_lines = old_file_lines.push('') if old_file_content.end_with?("\n")
+      old_line = old_file_lines[old_lineno - 1]
+
+      new_file_lines = new_file_content.lines.map(&:chomp)
+      new_file_lines = new_file_lines.push('') if new_file_content.end_with?("\n")
+      new_line = new_file_lines[new_lineno - 1]
 
       return if old_line.empty? || new_line.empty?
 

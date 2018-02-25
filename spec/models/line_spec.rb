@@ -40,5 +40,13 @@ describe MetaCommit::Models::Line do
 
       expect(line.compute_column(old_file_content, new_file_content)).to be_nil
     end
+
+    it 'adds line to the end of file when it ends with newline' do
+      line = MetaCommit::Models::Line.new
+      line.old_lineno = 3
+      line.new_lineno = 3
+
+      expect(line.compute_column("\n\n", "\n\n")).to be_nil
+    end
   end
 end
