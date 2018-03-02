@@ -1,0 +1,11 @@
+commands:
+  changelog:
+    adapter: file
+    formatter: keep_a_changelog
+  index:
+    adapter: git_notes
+  message:
+    formatter: commit_message
+
+extensions:
+  - builtin
