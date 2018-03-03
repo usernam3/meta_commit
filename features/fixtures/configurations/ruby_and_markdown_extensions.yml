@@ -8,4 +8,5 @@ commands:
     formatter: commit_message
 
 extensions:
-#{extensions}
+  - ruby_support
+  - markdown_support

@@ -70,6 +70,26 @@ module MetaCommit
       say('repository successfully indexed')
     end
 
+    desc 'init', 'add configuration file to project'
+    option :directory, :type => :string, :default => Dir.pwd
+    option :extensions, :type => :array, :default => ['builtin']
+
+    def init
+      repository_path = options[:directory]
+      extensions = options[:extensions]
+
+      config_file = File.join(repository_path, MetaCommit::ConfigurationStore::META_COMMIT_CONFIG_FILENAME)
+
+      return say('Configuration file exists. You repository is already meta_commit compatible.') if File.exist?(config_file)
+
+      template = File.read(MetaCommit::ConfigurationStore::TEMPLATE_FILE)
+      configuration = template.gsub(/\#{extensions}/, extensions.map {|extension| "  - #{extension}"}.join("\n"))
+
+      out_file = File.new(config_file, 'w')
+      out_file.puts(configuration)
+      out_file.close
+    end
+
     desc 'version', 'prints meta_commit gem version'
 
     def version
@@ -80,9 +100,8 @@ module MetaCommit
       # @param [String] configuration_path
       # @return [MetaCommit::Container]
       def boot_container_with_config(configuration_path)
-        default_configuration = MetaCommit::Configuration.new.fill_from_yaml_file(MetaCommit::ConfigurationStore::DEFAULT_FILE)
-        configuration_store = MetaCommit::ConfigurationStore.new(default_configuration)
-        configuration_store.merge(MetaCommit::Configuration.new.fill_from_yaml_file(configuration_path)) if File.exist?(configuration_path)
+        project_configuration = MetaCommit::Configuration.new.fill_from_yaml_file(configuration_path)
+        configuration_store = MetaCommit::ConfigurationStore.new(project_configuration)
 
         container = MetaCommit::Container.new
         container.boot(configuration_store)

@@ -6,4 +6,7 @@ begin
     MetaCommit::ApplicationInterface.start( ARGV )
 rescue MetaCommit::Errors::MissingRepoError => e
     Thor.new.say(e.message)
+rescue MetaCommit::Errors::MissingConfigError => e
+    Thor.new.say(e.message)
+    Thor.new.say('Please, run `meta_commit init` to create configuration file')
 end

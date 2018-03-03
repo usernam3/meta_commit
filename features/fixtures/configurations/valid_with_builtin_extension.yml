@@ -8,4 +8,4 @@ commands:
     formatter: commit_message
 
 extensions:
-#{extensions}
+  - builtin

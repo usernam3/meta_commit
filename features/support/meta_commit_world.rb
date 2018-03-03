@@ -34,6 +34,10 @@ module MetaCommitWorld
     File.join(File.dirname(File.dirname(__FILE__)), 'fixtures', 'notes', repository, object_id)
   end
 
+  def fixture_configuration_file(file_name)
+    File.join(File.dirname(File.dirname(__FILE__)), 'fixtures', 'configurations', file_name)
+  end
+
   def repository_file_path(repository, file)
     File.join(File.dirname(File.dirname(__FILE__)), 'tmp', 'repositories', repository, file)
   end

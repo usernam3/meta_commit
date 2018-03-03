@@ -19,3 +19,9 @@ Then /the repository should have git note on "([^"]*)" with contents of fixture 
   expected=fixture_note_file_path(@git_repo_name, fixture_note)
   expect(actual).to eq(File.read(expected))
 end
+
+Then /the repository should have file "([^"]*)" with contents of fixture "([^"]*)"/ do |file_name, configuration_fixture|
+  actual = File.read(repository_file_path(@git_repo_name, file_name))
+  expected = File.read(fixture_configuration_file(configuration_fixture))
+  expect(actual).to eq(expected)
+end
