@@ -8,3 +8,9 @@ Feature: Changelog command
     When I run meta_commit command `changelog v1.0 v2.0`
     Then the output should contain exactly "added version [v2.0] to CHANGELOG.md"
     Then the changelog should be equal to fixture file "three_commits_with_tags"
+
+  Scenario: New version changes are located on top of old version changes
+    Given three_commits_with_two_tags_and_changelog_with_version git repository
+    When I run meta_commit command `changelog v1.0 v2.0`
+    Then the output should contain exactly "added version [v2.0] to CHANGELOG.md"
+    Then the changelog should be equal to fixture file "three_commits_with_two_versions"
