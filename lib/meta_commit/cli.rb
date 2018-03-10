@@ -88,6 +88,8 @@ module MetaCommit
       out_file = File.new(config_file, 'w')
       out_file.puts(configuration)
       out_file.close
+
+      say("The configuration file #{MetaCommit::ConfigurationStore::META_COMMIT_CONFIG_FILENAME} added")
     end
 
     desc 'version', 'prints meta_commit gem version'

@@ -7,6 +7,7 @@ Feature: Index command
     Given empty_repository git repository
     When I run meta_commit command `init`
     Then the repository should have file ".meta_commit.yml" with contents of fixture "valid_with_builtin_extension.yml"
+     And the output should contain "The configuration file .meta_commit.yml added"
 
   Scenario: Run command on repository with configuration file
     Given three_commits_with_notes git repository
