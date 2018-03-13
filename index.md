@@ -4,7 +4,7 @@ layout: default
 
 [![v0.3 demonstration](https://asciinema.org/a/P6kWCq2S4eOpMzEjOAKSHYmyv.png)](https://asciinema.org/a/P6kWCq2S4eOpMzEjOAKSHYmyv?autoplay=1)
 
-meta commit - is set of commands for git repository, which extracts useful information from commits and allows to get more insights from usual actions with repository.
+[meta commit](https://github.com/usernam3/meta_commit/) - is set of commands for git repository, which extracts useful information from commits and allows to get more insights from usual actions with repository.
 
 Git is universal distributed version control system and works with minimal common units which exist in any file - strings. Meta commit is utility which gives git information about content of repository files and changes between commits on level of programming language. 
 
