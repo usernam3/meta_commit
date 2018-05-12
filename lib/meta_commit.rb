@@ -37,5 +37,6 @@ module MetaCommit
   # services
   require "meta_commit/services/change_saver"
   require "meta_commit/services/parse"
+  require "meta_commit/services/diff_lines_provider"
   require "meta_commit/git/repo"
 end

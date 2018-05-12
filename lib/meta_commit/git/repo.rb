@@ -4,12 +4,15 @@ module MetaCommit::Git
   # Rugged::Repository wrapper
   # @attr [Rugged::Repository] repo
   class Repo
+    extend Forwardable
+
     DIFF_OPTIONS = {:context_lines => 0, :ignore_whitespace => true}
     INDEX_DIFF_OPTIONS = {:context_lines => 0, :ignore_whitespace => true, :reverse => true}
 
     FILE_NOT_EXISTS_OID = '0000000000000000000000000000000000000000'
 
     attr_accessor :repo
+    def_delegators :@repo, :diff, :path
 
     # @param [String] repo_path
     def initialize(repo_path)
@@ -46,43 +49,6 @@ module MetaCommit::Git
       end
     end
 
-    # Proxy to Rugged::Repository#diff
-    # @param [Object] left
-    # @param [Object] right
-    # @param [Hash] options
-    # @return [Rugged::Diff::Delta]
-    def diff(left, right, options)
-      @repo.diff(left, right, options)
-    end
-
-    # Iterates over optimized lines in diff
-    # @param [Object] left
-    # @param [Object] right
-    # @yield [old_file_path, new_file_path, patch, line]
-    # @return [Object]
-    def diff_with_optimized_lines(left, right)
-      diff = @repo.diff(left, right, DIFF_OPTIONS)
-      diff.deltas.zip(diff.patches).each do |delta, patch|
-        lines = organize_lines(delta, patch)
-        lines.each do |line|
-          yield(delta.old_file[:path], delta.new_file[:path], patch, line)
-        end
-      end
-    end
-
-    # Iterates over optimized lines in index diff
-    # @yield [old_file_path, new_file_path, patch, line]
-    # @return [Object]
-    def index_diff_with_optimized_lines
-      diff = index_diff(INDEX_DIFF_OPTIONS)
-      diff.deltas.zip(diff.patches).each do |delta, patch|
-        lines = organize_lines(delta, patch)
-        lines.each do |line|
-          yield(delta.old_file[:path], delta.new_file[:path], patch, line)
-        end
-      end
-    end
-
     # Proxy to Rugged::Index#diff
     # @param [Hash] options
     # @return [Rugged::Diff::Delta]
@@ -112,11 +78,6 @@ module MetaCommit::Git
       content
     end
 
-    # @return [String] path to .git folder of repository
-    def path
-      @repo.path
-    end
-
     # @return [String] directory of repository
     def dir
       @repo.path.reverse.sub('/.git'.reverse, '').reverse
@@ -134,53 +95,6 @@ module MetaCommit::Git
     def last_commit_oid
       @repo.last_commit.oid
     end
-
-    # @param [Object] delta
-    # @param [Object] patch
-    # @return [Array<MetaCommit::Models::Line>]
-    def organize_lines(delta, patch)
-      lines_to_walk = []
-      # if whole file was changed examine one time only
-      whole_file_changed = (delta.old_file[:oid] == FILE_NOT_EXISTS_OID) || (delta.new_file[:oid] == FILE_NOT_EXISTS_OID)
-      skip_walking = false
-      skip_next_line = false
-      patch.hunks.each_with_index do |hunk|
-        break if skip_walking
-        hunk.lines.each_with_index do |line, line_index|
-          break if skip_walking
-
-          if skip_next_line
-            skip_next_line = false
-            next
-          end
-
-          next_line = hunk.lines[line_index + 1]
-          is_replace_change = (line.deletion?) && (!next_line.nil? && next_line.addition?) && (line.old_lineno && next_line.new_lineno)
-
-          line_to_walk = MetaCommit::Models::Line.new
-          if is_replace_change
-            line_to_walk.line_origin = :replace
-            line_to_walk.old_lineno = line.old_lineno
-            line_to_walk.new_lineno = next_line.new_lineno
-            line_to_walk.content_offset = next_line.content_offset
-          else
-            line_to_walk.line_origin = line.line_origin
-            line_to_walk.old_lineno = line.old_lineno
-            line_to_walk.new_lineno = line.new_lineno
-            line_to_walk.content_offset = line.content_offset
-          end
-          if is_replace_change
-            skip_next_line = true
-          end
-          lines_to_walk.push(line_to_walk)
-
-          skip_walking = true if whole_file_changed
-        end
-      end
-      lines_to_walk
-    end
-
-    private :organize_lines
 
   end
 end

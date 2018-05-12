@@ -6,6 +6,7 @@ describe MetaCommit::Message::Commands::DiffIndexExaminer do
     let(:parse_command) { double(:parse_command) }
     let(:ast_path_factory) { double(:ast_path_factory) }
     let(:diff_factory) { double(:diff_factory) }
+    let(:diff_lines_provider) {double(:diff_lines_provider)}
 
     let(:old_file_path) { double(:old_file_path) }
     let(:old_file_content) { :old_file_content }
@@ -24,14 +25,19 @@ describe MetaCommit::Message::Commands::DiffIndexExaminer do
     let(:created_diff) { double(:created_diff) }
 
     subject do
-      MetaCommit::Message::Commands::DiffIndexExaminer.new(parse_command, ast_path_factory, diff_factory)
+      MetaCommit::Message::Commands::DiffIndexExaminer.new(parse_command, ast_path_factory, diff_factory, diff_lines_provider)
     end
 
     it 'skips if parsed old file is nil' do
       repo = double(:repo, {:last_commit_oid => 'last_commit_oid'})
+      diff = double(:diff)
 
-      expect(repo).to receive(:index_diff_with_optimized_lines)
-                          .and_yield(old_file_path, new_file_path, patch, line)
+      expect(repo).to receive(:index_diff).with(anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                                         .and_return([
+                                                         [old_file_path, new_file_path, patch, line]
+                                                     ])
 
       expect(repo).to receive(:get_blob_at).with('last_commit_oid', old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_content_of).with(new_file_path, anything).and_return(new_file_content)
@@ -42,9 +48,14 @@ describe MetaCommit::Message::Commands::DiffIndexExaminer do
     end
     it 'skips if parsed new file is nil' do
       repo = double(:repo, {:last_commit_oid => 'last_commit_oid'})
+      diff = double(:diff)
 
-      expect(repo).to receive(:index_diff_with_optimized_lines)
-                          .and_yield(old_file_path, new_file_path, patch, line)
+      expect(repo).to receive(:index_diff).with(anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                                         .and_return([
+                                                         [old_file_path, new_file_path, patch, line]
+                                                     ])
 
       expect(repo).to receive(:get_blob_at).with('last_commit_oid', old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_content_of).with(new_file_path, anything).and_return(new_file_content).and_return(new_file_content)
@@ -56,13 +67,18 @@ describe MetaCommit::Message::Commands::DiffIndexExaminer do
     end
     it 'passes parameters to diff factory' do
       repo = double(:repo, {:last_commit_oid => 'last_commit_oid'})
+      diff = double(:diff)
       patch = double(:patch, {:delta => double(:delta, {
           :new_file => {:oid => :oid},
           :old_file => {:oid => :oid},
       })})
 
-      expect(repo).to receive(:index_diff_with_optimized_lines)
-                          .and_yield(old_file_path, new_file_path, patch, line)
+      expect(repo).to receive(:index_diff).with(anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                          .and_return([
+                                         [old_file_path, new_file_path, patch, line]
+                                     ])
 
       expect(repo).to receive(:get_blob_at).with('last_commit_oid', old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_content_of).with(new_file_path, anything).and_return(new_file_content).and_return(new_file_content)

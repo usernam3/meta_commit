@@ -20,6 +20,7 @@ module MetaCommit
       register :parser_factory, MetaCommit::Factories::ParserFactory.new(self[:parser_classes])
       register :parse_command, MetaCommit::Services::Parse.new(self[:parser_factory])
       register :contextual_ast_node_factory, MetaCommit::Factories::ContextualAstNodeFactory.new
+      register :diff_lines_provider, MetaCommit::Services::DiffLinesProvider.new
 
       self
     end

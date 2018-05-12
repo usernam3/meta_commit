@@ -14,7 +14,8 @@ module MetaCommit
       examiner = MetaCommit::Message::Commands::DiffIndexExaminer.new(
           container.resolve(:parse_command),
           container.resolve(:contextual_ast_node_factory),
-          container.resolve(:diff_factory)
+          container.resolve(:diff_factory),
+          container.resolve(:diff_lines_provider)
       )
 
       meta = examiner.index_meta(repository)
@@ -37,7 +38,8 @@ module MetaCommit
       examiner = MetaCommit::Changelog::Commands::CommitDiffExaminer.new(
           container.resolve(:parse_command),
           container.resolve(:contextual_ast_node_factory),
-          container.resolve(:diff_factory)
+          container.resolve(:diff_factory),
+          container.resolve(:diff_lines_provider)
       )
 
       meta = examiner.meta(repository, from_tag_commit, to_tag_commit)
@@ -59,7 +61,8 @@ module MetaCommit
       examiner = MetaCommit::Index::Commands::DiffExaminer.new(
           container.resolve(:parse_command),
           container.resolve(:contextual_ast_node_factory),
-          container.resolve(:diff_factory)
+          container.resolve(:diff_factory),
+          container.resolve(:diff_lines_provider)
       )
 
       meta = examiner.meta(repository)

@@ -4,10 +4,12 @@ module MetaCommit::Message
       # @param [MetaCommit::Services::Parse] parse_command
       # @param [MetaCommit::Factories::ContextualAstNodeFactory] ast_path_factory
       # @param [MetaCommit::Factories::DiffFactory] diff_factory
-      def initialize(parse_command, ast_path_factory, diff_factory)
+      # @param [MetaCommit::Factories::DiffFactory] diff_lines_provider
+      def initialize(parse_command, ast_path_factory, diff_factory, diff_lines_provider)
         @parse_command = parse_command
         @ast_path_factory = ast_path_factory
         @diff_factory = diff_factory
+        @diff_lines_provider = diff_lines_provider
       end
 
       # Creates diff objects with meta information of changes in index staged files
@@ -15,7 +17,9 @@ module MetaCommit::Message
       # @return [Array<MetaCommit::Contracts::Diff>]
       def index_meta(repo)
         diffs = MetaCommit::Models::Changes::Commit.new(repo.last_commit_oid, 'staged')
-        repo.index_diff_with_optimized_lines do |old_file_path, new_file_path, patch, line|
+        repo_diff = repo.index_diff(MetaCommit::Git::Repo::INDEX_DIFF_OPTIONS)
+        diff_lines = @diff_lines_provider.from(repo_diff)
+        diff_lines.each do |(old_file_path, new_file_path, patch, line)|
           commit_id_old = repo.last_commit_oid
           commit_id_new = 'staged'
 

@@ -23,43 +23,22 @@ describe MetaCommit::Git::Repo do
   describe '#walk_by_commits' do
     skip
   end
-  describe '#diff' do
-    it 'proxies message to inner repository' do
-      inner_repo_mock = double(:repo)
-      expect(inner_repo_mock).to receive(:diff).with(:left, :right, :options).once
-
-      current_folder_path = File.join(File.expand_path(File.dirname(File.dirname(File.dirname(__FILE__)))))
-      repo = MetaCommit::Git::Repo.new(current_folder_path)
-      repo.repo = inner_repo_mock
-
-      repo.diff(:left, :right, :options)
-    end
-  end
-  describe '#diff_with_optimized_lines' do
-
-  end
-  describe '#index_diff_with_optimized_lines' do
-
-  end
   describe '#index_diff' do
-
+    skip
   end
   describe '#get_blob_at' do
-
+    skip
   end
   describe '#get_content_of' do
-
-  end
-  describe '#path' do
-
+    skip
   end
   describe '#dir' do
-
+    skip
   end
   describe '#commit_of_tag' do
-
+    skip
   end
   describe '#last_commit_oid' do
-
+    skip
   end
 end

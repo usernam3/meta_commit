@@ -10,43 +10,21 @@ module MetaCommit::Changelog
     # @attr [Array<String>] fixed_changes Changes from "Fixed" section
     # @attr [Array<String>] security_changes Changes from "Security" section
     class KeepAChangelogVerReportBuilder
+      extend Forwardable
       # attr_reader :version, :date
       attr_reader :added_changes, :changed_changes, :deprecated_changes, :removed_changes, :fixed_changes, :security_changes
+
+      def_delegator :@added_changes, :push, :add_to_added
+      def_delegator :@changed_changes, :push, :add_to_changed
+      def_delegator :@deprecated_changes, :push, :add_to_deprecated
+      def_delegator :@removed_changes, :push, :add_to_removed
+      def_delegator :@fixed_changes, :push, :add_to_fixed
+      def_delegator :@security_changes, :push, :add_to_security
 
       def initialize(version, date)
         @version=version
         @date=date
         @added_changes, @changed_changes, @deprecated_changes, @removed_changes, @fixed_changes, @security_changes = [], [], [], [], [], []
-      end
-
-      # @param [String] change
-      def add_to_added(change)
-        @added_changes.push(change)
-      end
-
-      # @param [String] change
-      def add_to_changed(change)
-        @changed_changes.push(change)
-      end
-
-      # @param [String] change
-      def add_to_deprecated(change)
-        @deprecated_changes.push(change)
-      end
-
-      # @param [String] change
-      def add_to_removed(change)
-        @removed_changes.push(change)
-      end
-
-      # @param [String] change
-      def add_to_fixed(change)
-        @fixed_changes.push(change)
-      end
-
-      # @param [String] change
-      def add_to_security(change)
-        @security_changes.push(change)
       end
 
       # @return [String] Version header

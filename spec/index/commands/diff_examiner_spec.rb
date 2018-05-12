@@ -6,6 +6,7 @@ describe MetaCommit::Index::Commands::DiffExaminer do
     let(:parse_command) {double(:parse_command)}
     let(:ast_path_factory) {double(:ast_path_factory)}
     let(:diff_factory) {double(:diff_factory)}
+    let(:diff_lines_provider) {double(:diff_lines_provider)}
 
     let(:old_file_path) {double(:old_file_path)}
     let(:old_file_content) {:old_file_content}
@@ -24,30 +25,38 @@ describe MetaCommit::Index::Commands::DiffExaminer do
     let(:created_diff) {double(:created_diff)}
 
     subject do
-      MetaCommit::Index::Commands::DiffExaminer.new(parse_command, ast_path_factory, diff_factory)
+      MetaCommit::Index::Commands::DiffExaminer.new(parse_command, ast_path_factory, diff_factory, diff_lines_provider)
     end
 
     it 'passes commits to repo' do
       repo = double(:repo, :path => 'path')
+      diff = double(:diff)
       left = double(:left, {:oid => 'left'})
       right = double(:right, {:oid => 'right'})
 
       expect(repo).to receive(:walk_by_commits)
                           .and_yield(left, right)
-      expect(repo).to receive(:diff_with_optimized_lines).with(left, right)
-                          .and_return([])
+      expect(repo).to receive(:diff).with(left, right, anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                                         .and_return([])
 
       subject.meta(repo)
     end
     it 'skips if parsed old file is nil' do
       repo = double(:repo, :path => 'path')
+      diff = double(:diff)
       left = double(:left, {:oid => old_file_oid})
       right = double(:right, {:oid => new_file_oid})
 
       expect(repo).to receive(:walk_by_commits)
                           .and_yield(left, right)
-      expect(repo).to receive(:diff_with_optimized_lines).with(left, right)
-                          .and_yield(old_file_path, new_file_path, patch, line)
+      expect(repo).to receive(:diff).with(left, right, anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                                         .and_return([
+                                                         [old_file_path, new_file_path, patch, line],
+                                                     ])
 
       expect(repo).to receive(:get_blob_at).with(anything, old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_blob_at).with(anything, new_file_path, anything).and_return(new_file_content)
@@ -60,13 +69,18 @@ describe MetaCommit::Index::Commands::DiffExaminer do
     end
     it 'skips if parsed new file is nil' do
       repo = double(:repo, :path => 'path')
+      diff = double(:diff)
       left = double(:left, {:oid => old_file_oid})
       right = double(:right, {:oid => new_file_oid})
 
       expect(repo).to receive(:walk_by_commits)
                           .and_yield(left, right)
-      expect(repo).to receive(:diff_with_optimized_lines).with(left, right)
-                          .and_yield(old_file_path, new_file_path, patch, line)
+      expect(repo).to receive(:diff).with(left, right, anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                                         .and_return([
+                                                         [old_file_path, new_file_path, patch, line]
+                                                     ])
 
       expect(repo).to receive(:get_blob_at).with(anything, old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_blob_at).with(anything, new_file_path, anything).and_return(new_file_content)
@@ -80,6 +94,7 @@ describe MetaCommit::Index::Commands::DiffExaminer do
     end
     it 'passes parameters to diff factory' do
       repo = double(:repo, :path => 'path')
+      diff = double(:diff)
       left = double(:left, {:oid => old_file_oid})
       right = double(:right, {:oid => new_file_oid})
       patch = double(:patch, {:delta => double(:delta, {
@@ -89,8 +104,12 @@ describe MetaCommit::Index::Commands::DiffExaminer do
 
       expect(repo).to receive(:walk_by_commits)
                           .and_yield(left, right)
-      expect(repo).to receive(:diff_with_optimized_lines).with(left, right)
-                          .and_yield(old_file_path, new_file_path, patch, line)
+      expect(repo).to receive(:diff).with(left, right, anything)
+                          .and_return(diff)
+      expect(diff_lines_provider).to receive(:from).with(diff)
+                                         .and_return([
+                                                         [old_file_path, new_file_path, patch, line]
+                                                     ])
 
       expect(repo).to receive(:get_blob_at).with(anything, old_file_path, anything).and_return(old_file_content)
       expect(repo).to receive(:get_blob_at).with(anything, new_file_path, anything).and_return(new_file_content)
@@ -104,15 +123,15 @@ describe MetaCommit::Index::Commands::DiffExaminer do
 
       expect(diff_factory).to receive(:create_diff)
                                   .with({
-                                      :line => line,
-                                      :column => nil,
-                                      :commit_id_old => old_file_oid,
-                                      :commit_id_new => new_file_oid,
-                                      :old_contextual_ast => old_ast_path,
-                                      :new_contextual_ast => new_ast_path,
-                                      :old_file_path => old_file_path,
-                                      :new_file_path => new_file_path,
-                                  }).and_return(created_diff)
+                                            :line => line,
+                                            :column => nil,
+                                            :commit_id_old => old_file_oid,
+                                            :commit_id_new => new_file_oid,
+                                            :old_contextual_ast => old_ast_path,
+                                            :new_contextual_ast => new_ast_path,
+                                            :old_file_path => old_file_path,
+                                            :new_file_path => new_file_path,
+                                        }).and_return(created_diff)
 
       expect(subject.meta(repo).commit_changes[0]).to include(created_diff)
     end

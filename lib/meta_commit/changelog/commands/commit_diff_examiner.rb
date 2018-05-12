@@ -4,12 +4,13 @@ module MetaCommit::Changelog
       # @param [MetaCommit::Services::Parse] parse_command
       # @param [MetaCommit::Factories::ContextualAstNodeFactory] ast_path_factory
       # @param [MetaCommit::Factories::DiffFactory] diff_factory
-      def initialize(parse_command, ast_path_factory, diff_factory)
+      # @param [MetaCommit::Factories::DiffFactory] diff_lines_provider
+      def initialize(parse_command, ast_path_factory, diff_factory, diff_lines_provider)
         @parse_command = parse_command
         @ast_path_factory = ast_path_factory
         @diff_factory = diff_factory
+        @diff_lines_provider = diff_lines_provider
       end
-
 
       # Creates diff objects with meta information of changes between left and right commit
       # @param [MetaCommit::Git::Repo] repo
@@ -20,7 +21,10 @@ module MetaCommit::Changelog
         diffs = []
         commit_id_old = left_commit.oid
         commit_id_new = right_commit.oid
-        repo.diff_with_optimized_lines(left_commit, right_commit) do |old_file_path, new_file_path, patch, line|
+        repo_diff = repo.diff(left_commit, right_commit, MetaCommit::Git::Repo::DIFF_OPTIONS)
+        diff_lines = @diff_lines_provider.from(repo_diff)
+
+        diff_lines.each do |(old_file_path, new_file_path, patch, line)|
           old_file_content = repo.get_blob_at(commit_id_old, old_file_path, '')
           new_file_content = repo.get_blob_at(commit_id_new, new_file_path, '')
 
